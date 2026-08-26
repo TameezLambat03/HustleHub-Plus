@@ -1,0 +1,7 @@
+schema: "classroom50/repo-config/v1"
+classroom: "insy7314-2026"
+assignment: "insy7314-poe-classroom"
+owner:
+  username: "TameezLambat"
+  id: 166487262
+  accepted_at: "2026-08-26T01:59:05Z"
