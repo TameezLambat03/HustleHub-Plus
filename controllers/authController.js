@@ -1,6 +1,7 @@
+const bcrypt = require("bcrypt");
 const users = require("../data/users");
 
-const registerUser = (req, res) => {
+const registerUser = async (req, res) => {
     const { name, email, password } = req.body;
 
     if (!name || !email || !password) {
@@ -17,11 +18,13 @@ const registerUser = (req, res) => {
         });
     }
 
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     const newUser = {
         id: users.length + 1,
         name,
         email,
-        password
+        password: hashedPassword
     };
 
     users.push(newUser);
@@ -36,14 +39,20 @@ const registerUser = (req, res) => {
     });
 };
 
-const loginUser = (req, res) => {
+const loginUser = async (req, res) => {
     const { email, password } = req.body;
 
-    const user = users.find(
-        user => user.email === email && user.password === password
-    );
+    const user = users.find(user => user.email === email);
 
     if (!user) {
+        return res.status(401).json({
+            message: "Invalid email or password"
+        });
+    }
+
+    const passwordMatch = await bcrypt.compare(password, user.password);
+
+    if (!passwordMatch) {
         return res.status(401).json({
             message: "Invalid email or password"
         });
