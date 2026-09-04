@@ -1,3 +1,4 @@
+const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const users = require("../data/users");
 
@@ -10,7 +11,9 @@ const registerUser = async (req, res) => {
         });
     }
 
-    const existingUser = users.find(user => user.email === email);
+    const normalisedEmail = email.trim().toLowerCase();
+
+    const existingUser = users.find(user => user.email === normalisedEmail);
 
     if (existingUser) {
         return res.status(409).json({
@@ -23,7 +26,7 @@ const registerUser = async (req, res) => {
     const newUser = {
         id: users.length + 1,
         name,
-        email,
+        email: normalisedEmail,
         password: hashedPassword
     };
 
@@ -42,7 +45,12 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
     const { email, password } = req.body;
 
-    const user = users.find(user => user.email === email);
+    if (!email || !password) {
+        return res.status(400).json({ message: "Email and password are required" });
+    }
+    
+    const normalisedEmail = email.trim().toLowerCase();
+    const user = users.find(user => user.email === normalisedEmail);
 
     if (!user) {
         return res.status(401).json({
@@ -58,8 +66,30 @@ const loginUser = async (req, res) => {
         });
     }
 
+    const token = jwt.sign(
+        { id: user.id, email: user.email },
+        process.env.JWT_SECRET,
+        { expiresIn: process.env.JWT_EXPIRES_IN }
+    );
+
     res.json({
         message: "Login successful",
+        token,
+        user: {
+            id: user.id,
+            name: user.name,
+            email: user.email
+        }
+    });
+};
+
+const getCurrentUser = (req, res) => {
+    const user = users.find(user => user.id === req.user.id);
+
+    if (!user) {
+        return res.status(404).json({ message: "User not found" });
+    }
+    res.json({
         user: {
             id: user.id,
             name: user.name,
@@ -70,5 +100,6 @@ const loginUser = async (req, res) => {
 
 module.exports = {
     registerUser,
-    loginUser
+    loginUser,
+    getCurrentUser
 };
