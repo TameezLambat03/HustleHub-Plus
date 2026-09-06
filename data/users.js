@@ -3,7 +3,7 @@ const users = [
         id: 1,
         name: "System Administrator",
         email: "admin@hustlehub.com",
-        password: "$2b$10$LWy9m9/Mqk4jhm8aHit/N.Fx14UO2jPci2gwANl0tVNsK8/BWgiKW",
+        password: "$2b$10$qWASkpmzR2lgoXAJI5O8ZeTaY2PDBYynbAehvwCSYgqJ9YzaDELZ2",
         role: "admin"
     }
 ];

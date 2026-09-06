@@ -22,6 +22,84 @@ Finally, this backend server is configured to work with HTTPS using an SSL certi
 # Diagrams
 All diagrams are included in the submission document of this project
 
+## Screenshots
+
+## Postman Testing
+
+### Registration
+
+#### Register - Valid Client
+![Register - Valid Client](screenshots/register-client.png)
+
+#### Register - Valid Freelancer
+![Register - Valid Freelancer](screenshots/register-freelancer.png)
+
+#### Register - Duplicate User
+![Register - Duplicate User](screenshots/register-duplicate.png)
+
+#### Register - Missing Fields
+![Register - Missing Fields](screenshots/register-missing-fields.png)
+
+#### Register - Invalid Email
+![Register - Invalid Email](screenshots/register-invalid-email.png)
+
+#### Register - Weak Password
+![Register - Weak Password](screenshots/register-weak-password.png)
+
+#### Register - Admin Attempt
+![Register - Admin Attempt](screenshots/register-admin-attempt.png)
+
+
+### Login
+
+#### Login - Client - Valid
+![Login - Client - Valid](screenshots/login-client.png)
+
+#### Login - Freelancer - Valid
+![Login - Freelancer - Valid](screenshots/login-freelancer.png)
+
+#### Login - Admin - Valid
+![Login - Admin - Valid](screenshots/login-admin.png)
+
+#### Login - Wrong Password
+![Login - Wrong Password](screenshots/login-wrong-password.png)
+
+#### Login - Invalid Email
+![Login - Invalid Email](screenshots/login-invalid-email.png)
+
+#### Login - Missing Fields
+![Login - Missing Fields](screenshots/login-missing-fields.png)
+
+
+### JWT
+
+#### JWT - No Token
+![JWT - No Token](screenshots/jwt-no-token.png)
+
+#### JWT - Valid Token
+![JWT - Valid Token](screenshots/jwt-valid-token.png)
+
+#### JWT - Invalid Token
+![JWT - Invalid Token](screenshots/jwt-invalid-token.png)
+
+
+### HTTPS
+
+#### HTTPS - Health Check
+![HTTPS - Health Check](screenshots/https-health-check.png)
+
+
+### Error Handling
+
+#### Invalid JSON
+![Invalid JSON](screenshots/error-invalid-json.png)
+
+#### Missing Content
+![Missing Content](screenshots/error-missing-content.png)
+
+#### Protected Route - Invalid Token
+![Protected Route - Invalid Token](screenshots/error-invalid-token.png)
+
 # Seperation of work
 
 | Name             | Responsibilities                                           |
