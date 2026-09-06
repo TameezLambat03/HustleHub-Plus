@@ -1,9 +1,9 @@
 
 const { validationResult } = require("express-validator");
 
-// ============================================================
+
 // VALIDATION ERROR HANDLER
-// ============================================================
+
 
 const validateControllerInput = (req, res, next) => {
     const errors = validationResult(req);
@@ -23,9 +23,9 @@ const validateControllerInput = (req, res, next) => {
 };
 
 
-// ============================================================
+
 // EXPORT VALIDATION MIDDLEWARE
-// ============================================================
+
 
 module.exports = validateControllerInput;
 
