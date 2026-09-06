@@ -1,8 +1,9 @@
-const { body, validationResult } = require("express-validator");
 
-// ============================================================
+const { body } = require("express-validator");
+
+
 // REGISTRATION VALIDATION
-// ============================================================
+
 
 const registerValidator = [
     body("name")
@@ -46,9 +47,9 @@ const registerValidator = [
 ];
 
 
-// ============================================================
+
 // LOGIN VALIDATION
-// ============================================================
+
 
 const loginValidator = [
     body("email")
@@ -67,34 +68,11 @@ const loginValidator = [
 ];
 
 
-// ============================================================
-// VALIDATION ERROR HANDLER
-// ============================================================
-
-const validationErrorHandler = (req, res, next) => {
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-        return res.status(400).json({
-            success: false,
-            message: "Validation failed",
-            errors: errors.array().map(error => ({
-                field: error.path,
-                message: error.msg
-            }))
-        });
-    }
-
-    next();
-};
-
-
-// ============================================================
 // EXPORT VALIDATORS
-// ============================================================
+
 
 module.exports = {
     registerValidator,
-    loginValidator,
-    validationErrorHandler
+    loginValidator
 };
+

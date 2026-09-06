@@ -4,9 +4,10 @@ const protect = require("../middleware/authMiddleware");
 
 const {
     registerValidator,
-    loginValidator,
-    validationErrorHandler
+    loginValidator
 } = require("../middleware/validator");
+
+const validateControllerInput = require("../middleware/validateControllerInput");
 
 const {
     registerUser,
@@ -16,52 +17,27 @@ const {
 
 const router = express.Router();
 
-
-// ============================================================
 // REGISTER
-// ============================================================
-
 router.post(
     "/register",
     registerValidator,
-    validationErrorHandler,
-    async (req, res, next) => {
-        try {
-            await registerUser(req, res, next);
-        } catch (error) {
-            next(error);
-        }
-    }
+    validateControllerInput,
+    registerUser
 );
 
-
-// ============================================================
 // LOGIN
-// ============================================================
-
 router.post(
     "/login",
     loginValidator,
-    validationErrorHandler,
-    async (req, res, next) => {
-        try {
-            await loginUser(req, res, next);
-        } catch (error) {
-            next(error);
-        }
-    }
+    validateControllerInput,
+    loginUser
 );
 
-
-// ============================================================
 // CURRENT USER
-// ============================================================
-
 router.get(
     "/me",
     protect,
     getCurrentUser
 );
-
 
 module.exports = router;

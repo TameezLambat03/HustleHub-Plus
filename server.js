@@ -1,11 +1,12 @@
 // Load environment variables from .env
 require("dotenv").config();
 
+//imports
 const express = require("express");
 const http = require("http");
 const https = require("https");
 const fs = require("fs");
-
+const errorHandler = require("./middleware/errorHandler");
 const authRoutes = require("./routes/authRoutes");
 
 const app = express();
@@ -20,6 +21,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/auth", authRoutes);
+app.use(errorHandler);
 
 
 if (process.env.USE_HTTPS === "true") {
