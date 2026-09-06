@@ -18,13 +18,16 @@ This part of the project focuses specifically on user account creation and login
 This backend server also makes use of JWT tokens. This allows for better secure data transmission between various parties as it allows for easier authentication. For this system specifically once a user role is authorised, the user will be assigned a JWT token, which will be automatically attached to the header of any HTTPS requests through the application front end (GeeksforGeeks, 2019). This means that, without the server needing to store excess session data, the end user can have their role and user information stored and authenticated while interacting with the system.
 ## SSL certificate
 Finally, this backend server is configured to work with HTTPS using an SSL certificate. This means that the connection would be encrypted between the server and a connecting client browser (Serpanos and Wolf, 2011). It works by the server having an SSL certificate with a public key. A client browser will use that key to create a unique session key, and that session key is used to encrypt all data transmitted. Meaning if this data is intercepted, a hacker would only have the encrypted scrambled data and would not be able to use it without the key (White and West, 2023). 
+## Pre seeded Admin role
+It is more secure if an admin role account may not be directly created by an user, but rather created on app start and details for this provided. The login details are as follows:
+| Role  | Email                 | Password            |
+| ----- | --------------------- | ------------------- |
+| Admin | `admin@hustlehub.com` | `AdminPassword123!` |
 
 # Diagrams
 All diagrams are included in the submission document of this project
 
-## Screenshots
-
-## Postman Testing
+## Screenshots of postman testing
 
 ### Registration
 

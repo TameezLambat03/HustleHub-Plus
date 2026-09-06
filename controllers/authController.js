@@ -2,9 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const users = require("../data/users");
 
-// ============================================================
-// REGISTER USER
-// ============================================================
+
 // Creates a new client or freelancer account.
 // Admin accounts cannot be created through public registration.
 const registerUser = async (req, res) => {
@@ -68,9 +66,7 @@ const registerUser = async (req, res) => {
 };
 
 
-// ============================================================
-// LOGIN USER
-// ============================================================
+
 // Checks the user's email and password.
 // If correct, creates and returns a JWT.
 const loginUser = async (req, res) => {
@@ -97,9 +93,7 @@ const loginUser = async (req, res) => {
         });
     }
 
-    // ========================================================
-    // CREATE JWT
-    // ========================================================
+  
     // The JWT contains information about the authenticated user.
     // The role is included so the API can later determine
     // what the user is allowed to access.
@@ -134,9 +128,7 @@ const loginUser = async (req, res) => {
 };
 
 
-// ============================================================
-// GET CURRENT USER
-// ============================================================
+
 // Used by the protected /me route.
 //
 // authMiddleware.js verifies the JWT first and places
@@ -165,9 +157,7 @@ const getCurrentUser = (req, res) => {
 };
 
 
-// ============================================================
-// EXPORT CONTROLLER FUNCTIONS
-// ============================================================
+
 // These functions are imported by authRoutes.js
 module.exports = {
     registerUser,
