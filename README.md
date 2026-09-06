@@ -44,10 +44,4 @@ Serpanos, D. & Wolf, T. Architecture of Network Systems. 2011. Burlington: Elsev
 
 White, C.M. & West, J. Data Communications & Computer Networks: A Business User’s Approach. 9th Edition. 2023. Cengage Learning: Boston 
 
-Gamede-Atlegang changes made:
-- Issue signed JWT on successful login using secret from environment
-- Added auth middleware verifying Bearer tokens on protected requests
-- Added GET /api/auth/me protected route returning the current user
-- Normalised emails to lowercase and guard missing login fields
-- Moved configuration to .env and add .gitignore
-- Updatd qs to 6.16.0 to clear a moderate npm audit advisory
+
