@@ -1,8 +1,16 @@
 const errorHandler = (err, req, res, next) => {
-    // Log the actual error on the server for debugging
+    // Malformed JSON sent by the client
+    if (err instanceof SyntaxError && err.status === 400 && "body" in err) {
+        return res.status(400).json({
+            success: false,
+            message: "Invalid JSON format"
+        });
+    }
+
+    // Log unexpected errors on the server
     console.error(err);
 
-    // Send a safe error message to the client
+    // Safe response for unexpected server errors
     res.status(500).json({
         success: false,
         message: "An unexpected error occurred"
