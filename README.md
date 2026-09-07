@@ -6,6 +6,9 @@ Tameez Lambaat - ST10462078
 Atlegang GAMEDE – ST10445041 
 Titus Ndaba - ST10448883 
 
+# Youtube demo video
+https://youtu.be/hKSSmUVRzZM
+
 # Project Overview
 This project is the beginning of the HustleHub system. HustleHub is meant to be a system serving as a centralised location for freelancers to market themselves and provide services. The system will allow freelancers to connect with clients and manage their finances in accordance with local tax laws.  
 For this part of the project a backend API server was set up that allows the account creation of a user with their relevant role in a secured, and validated manner. 
@@ -18,14 +21,124 @@ This part of the project focuses specifically on user account creation and login
 This backend server also makes use of JWT tokens. This allows for better secure data transmission between various parties as it allows for easier authentication. For this system specifically once a user role is authorised, the user will be assigned a JWT token, which will be automatically attached to the header of any HTTPS requests through the application front end (GeeksforGeeks, 2019). This means that, without the server needing to store excess session data, the end user can have their role and user information stored and authenticated while interacting with the system.
 ## SSL certificate
 Finally, this backend server is configured to work with HTTPS using an SSL certificate. This means that the connection would be encrypted between the server and a connecting client browser (Serpanos and Wolf, 2011). It works by the server having an SSL certificate with a public key. A client browser will use that key to create a unique session key, and that session key is used to encrypt all data transmitted. Meaning if this data is intercepted, a hacker would only have the encrypted scrambled data and would not be able to use it without the key (White and West, 2023). 
+
+## HTTPS Certificate Setup
+
+HustleHub+ runs locally over HTTPS using a self-signed SSL certificate. The certificate and private key are intentionally excluded from Git because they are generated locally.
+
+### 1. Install OpenSSL
+
+Make sure OpenSSL is installed and available from your terminal.
+
+Verify the installation with:
+
+```powershell
+openssl version
+```
+
+### 2. Create the certificate directory
+
+From the project root:
+
+```powershell
+mkdir cert
+```
+
+### 3. Generate the local SSL certificate
+
+Run:
+
+```powershell
+openssl req -x509 -newkey rsa:2048 -keyout cert/localhost.key -out cert/localhost.crt -sha256 -days 365 -nodes
+```
+
+When prompted for the certificate information, use:
+
+```text
+Common Name (e.g. server FQDN or YOUR name) []: localhost
+```
+
+The other fields can be left blank or filled in as appropriate.
+
+This generates:
+
+```text
+cert/
+├── localhost.crt
+└── localhost.key
+```
+
+The `openssl req -x509` command generates a self-signed certificate, which is suitable for local development and testing.
+
+### 4. Configure the environment
+
+Create a `.env` file in the project root:
+
+```env
+JWT_SECRET=your-development-secret
+USE_HTTPS=true
+SSL_KEY_PATH=./cert/localhost.key
+SSL_CERT_PATH=./cert/localhost.crt
+```
+
+### 5. Start the API
+
+Run:
+
+```powershell
+node server.js
+```
+
+The API should start at:
+
+```text
+https://localhost:4000
+```
+
+### Important
+
+The following files should **not** be committed to Git:
+
+```text
+.env
+cert/localhost.key
+cert/localhost.crt
+```
+
+They are excluded through `.gitignore` and should be generated/configured locally when setting up the project.
+
+
 ## Pre seeded Admin role
 It is more secure if an admin role account may not be directly created by an user, but rather created on app start and details for this provided. The login details are as follows:
 | Role  | Email                 | Password            |
 | ----- | --------------------- | ------------------- |
 | Admin | `admin@hustlehub.com` | `AdminPassword123!` |
 
+## Environment Setup
+
+Create a `.env` file in the root directory of the project:
+
+```env
+JWT_SECRET=your-development-secret
+USE_HTTPS=true
+SSL_KEY_PATH=./cert/localhost.key
+SSL_CERT_PATH=./cert/localhost.crt
+```
+
+### Important
+
+The `.env` file is excluded from Git using `.gitignore` and should not be committed to the repository.
+
+The `JWT_SECRET` should be replaced with a secure secret value when setting up the project.
+
+The SSL certificate and private key are used to run the API locally over HTTPS.
+
+
 # Diagrams
-All diagrams are included in the submission document of this project
+
+![Architecture Diagram](screenshots/Architecture-diagram.png)
+
+![Flow Diagram](screenshots/Flow-Diagram.png)
 
 ## Screenshots of postman testing
 
