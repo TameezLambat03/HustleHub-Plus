@@ -136,8 +136,10 @@ The SSL certificate and private key are used to run the API locally over HTTPS.
 
 # Diagrams
 
+### Architecture
 ![Architecture Diagram](screenshots/Architecture-diagram.png)
 
+### Flow Diagram
 ![Flow Diagram](screenshots/Flow-Diagram.png)
 
 ## Screenshots of postman testing
