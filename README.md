@@ -22,31 +22,60 @@ This backend server also makes use of JWT tokens. This allows for better secure 
 ## SSL certificate
 Finally, this backend server is configured to work with HTTPS using an SSL certificate. This means that the connection would be encrypted between the server and a connecting client browser (Serpanos and Wolf, 2011). It works by the server having an SSL certificate with a public key. A client browser will use that key to create a unique session key, and that session key is used to encrypt all data transmitted. Meaning if this data is intercepted, a hacker would only have the encrypted scrambled data and would not be able to use it without the key (White and West, 2023). 
 
-## HTTPS Certificate Setup
+# How to Run HustleHub+
 
-HustleHub+ runs locally over HTTPS using a self-signed SSL certificate. The certificate and private key are intentionally excluded from Git because they are generated locally.
+Follow these steps to set up and run the HustleHub+ backend API locally.
 
-### 1. Install OpenSSL
+## 1. Clone the Repository
 
-Make sure OpenSSL is installed and available from your terminal.
+Clone the repository and open the project folder in a terminal.
 
-Verify the installation with:
+## 2. Install Dependencies
+
+Run the following command from the project root:
+
+```powershell
+npm install
+```
+
+This installs all required Node.js dependencies listed in `package.json`.
+
+## 3. Create the Environment File
+
+Create a file named `.env` in the root directory of the project.
+
+Add the following:
+
+```env
+JWT_SECRET=your-development-secret
+USE_HTTPS=true
+SSL_KEY_PATH=./cert/localhost.key
+SSL_CERT_PATH=./cert/localhost.crt
+```
+
+The `JWT_SECRET` should be replaced with a secure secret value.
+
+The `.env` file is excluded from Git and should not be committed to the repository.
+
+## 4. Set Up the HTTPS Certificate
+
+HustleHub+ runs locally over HTTPS using a self-signed SSL certificate.
+
+Make sure OpenSSL is installed and available from the terminal.
+
+Check the installation with:
 
 ```powershell
 openssl version
 ```
 
-### 2. Create the certificate directory
-
-From the project root:
+Create the certificate directory:
 
 ```powershell
 mkdir cert
 ```
 
-### 3. Generate the local SSL certificate
-
-Run:
+Generate the local certificate and private key:
 
 ```powershell
 openssl req -x509 -newkey rsa:2048 -keyout cert/localhost.key -out cert/localhost.crt -sha256 -days 365 -nodes
@@ -58,9 +87,9 @@ When prompted for the certificate information, use:
 Common Name (e.g. server FQDN or YOUR name) []: localhost
 ```
 
-The other fields can be left blank or filled in as appropriate.
+The other fields can be left blank or completed as required.
 
-This generates:
+This creates:
 
 ```text
 cert/
@@ -68,20 +97,9 @@ cert/
 └── localhost.key
 ```
 
-The `openssl req -x509` command generates a self-signed certificate, which is suitable for local development and testing.
+The certificate and private key are excluded from Git and must be generated locally.
 
-### 4. Configure the environment
-
-Create a `.env` file in the project root:
-
-```env
-JWT_SECRET=your-development-secret
-USE_HTTPS=true
-SSL_KEY_PATH=./cert/localhost.key
-SSL_CERT_PATH=./cert/localhost.crt
-```
-
-### 5. Start the API
+## 5. Start the API
 
 Run:
 
@@ -89,15 +107,47 @@ Run:
 node server.js
 ```
 
-The API should start at:
+If the setup is successful, the terminal should display:
+
+```text
+HustleHub+ API running on https://localhost:4000
+```
+
+The API is now available at:
 
 ```text
 https://localhost:4000
 ```
 
-### Important
+## 6. Test the API
 
-The following files should **not** be committed to Git:
+The API can be tested using Postman.
+
+The main authentication endpoints are:
+
+```text
+POST https://localhost:4000/api/auth/register
+POST https://localhost:4000/api/auth/login
+GET  https://localhost:4000/api/auth/me
+```
+
+The `/me` endpoint requires a valid JWT Bearer token.
+
+## 7. Seeded Admin Account
+
+An administrator account is automatically available when the server starts. Public registration does not allow users to create an administrator account.
+
+The following credentials can be used for testing:
+
+| Role  | Email                 | Password            |
+| ----- | --------------------- | ------------------- |
+| Admin | `admin@hustlehub.com` | `AdminPassword123!` |
+
+This account is intended for local development and testing.
+
+## Important Notes
+
+The following files should not be committed to Git:
 
 ```text
 .env
@@ -105,33 +155,10 @@ cert/localhost.key
 cert/localhost.crt
 ```
 
-They are excluded through `.gitignore` and should be generated/configured locally when setting up the project.
+These files contain environment-specific configuration or locally generated security credentials.
 
+User accounts created through the registration endpoint are currently stored in memory. Therefore, newly registered client and freelancer accounts will be removed when the server is restarted. The seeded admin account will remain available because it is defined in `data/users.js`.
 
-## Pre seeded Admin role
-It is more secure if an admin role account may not be directly created by an user, but rather created on app start and details for this provided. The login details are as follows:
-| Role  | Email                 | Password            |
-| ----- | --------------------- | ------------------- |
-| Admin | `admin@hustlehub.com` | `AdminPassword123!` |
-
-## Environment Setup
-
-Create a `.env` file in the root directory of the project:
-
-```env
-JWT_SECRET=your-development-secret
-USE_HTTPS=true
-SSL_KEY_PATH=./cert/localhost.key
-SSL_CERT_PATH=./cert/localhost.crt
-```
-
-### Important
-
-The `.env` file is excluded from Git using `.gitignore` and should not be committed to the repository.
-
-The `JWT_SECRET` should be replaced with a secure secret value when setting up the project.
-
-The SSL certificate and private key are used to run the API locally over HTTPS.
 
 
 # Diagrams
