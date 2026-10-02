@@ -4,7 +4,8 @@ import Navbar from './components/Navbar'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Register from './pages/Register'
-
+import Gigs from './pages/Gigs'
+import CreateGig from './pages/CreateGig'
 function App() {
   return (
     <BrowserRouter>
@@ -16,6 +17,8 @@ function App() {
         <Route path="/" element={<Home />} />
          <Route path="/login" element={<Login />} />
          <Route path="/Register" element={<Register />} />
+         <Route path="/gigs" element={<Gigs />} />
+         <Route path="/offer-service" element={<CreateGig />} />
       </Routes>
 
     </BrowserRouter>

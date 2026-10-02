@@ -309,3 +309,951 @@ button {
   font-weight: bold;
   text-decoration: none;
 }
+/* ========================================
+   OFFER A SERVICE
+======================================== */
+
+.offer-page {
+  min-height: calc(100vh - 76px);
+  background: #F8F6F2;
+  padding: 42px 6% 80px;
+}
+
+.offer-container {
+  max-width: 1250px;
+  margin: 0 auto;
+}
+
+.offer-back {
+  border: none;
+  background: transparent;
+  padding: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #66616f;
+  cursor: pointer;
+  margin-bottom: 45px;
+  transition: color 0.2s ease;
+}
+
+.offer-back:hover {
+  color: #E96B4C;
+}
+
+.offer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 40px;
+  margin-bottom: 55px;
+}
+
+.offer-header h1 {
+  max-width: 760px;
+  margin: 10px 0 18px;
+  font-size: clamp(42px, 5vw, 68px);
+  line-height: 1.02;
+  letter-spacing: -2.5px;
+  color: #24212D;
+}
+
+.offer-header h1 span {
+  color: #E96B4C;
+}
+
+.offer-intro {
+  max-width: 590px;
+  color: #77727d;
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.offer-number {
+  min-width: 150px;
+  padding-bottom: 8px;
+  text-align: right;
+}
+
+.offer-number span {
+  display: block;
+  font-size: 48px;
+  font-weight: 800;
+  line-height: 1;
+  color: #D9D0FF;
+}
+
+.offer-number p {
+  margin-top: 8px;
+  color: #77727d;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+
+/* ========================================
+   MAIN LAYOUT
+======================================== */
+
+.offer-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(320px, 0.8fr);
+  gap: 28px;
+  align-items: start;
+}
+
+
+/* ========================================
+   FORM CARD
+======================================== */
+
+.offer-form-card {
+  background: #ffffff;
+  border: 1px solid rgba(36, 33, 45, 0.07);
+  border-radius: 24px;
+  padding: 42px;
+  box-shadow: 0 18px 50px rgba(36, 33, 45, 0.06);
+}
+
+.form-section-heading {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding-bottom: 30px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #eeeae6;
+}
+
+.form-section-heading > span {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #D9D0FF;
+  color: #24212D;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.form-section-heading h2 {
+  margin: 0 0 5px;
+  color: #24212D;
+  font-size: 25px;
+}
+
+.form-section-heading p {
+  margin: 0;
+  color: #8b858e;
+  font-size: 14px;
+}
+
+
+/* ========================================
+   FORM FIELDS
+======================================== */
+
+.offer-form-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.field-group label {
+  color: #24212D;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.field-group input,
+.field-group select,
+.field-group textarea {
+  width: 100%;
+  border: 1px solid #e5e1dc;
+  border-radius: 12px;
+  background: #fcfbfa;
+  padding: 15px 16px;
+  color: #24212D;
+  font-family: inherit;
+  font-size: 15px;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.field-group input,
+.field-group select {
+  height: 52px;
+}
+
+.field-group textarea {
+  min-height: 160px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.field-group input:focus,
+.field-group select:focus,
+.field-group textarea:focus {
+  border-color: #E96B4C;
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(233, 107, 76, 0.08);
+}
+
+.field-group input::placeholder,
+.field-group textarea::placeholder {
+  color: #aaa5aa;
+}
+
+.field-group small {
+  color: #99939b;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+
+/* ========================================
+   PRICE
+======================================== */
+
+.price-field {
+  display: flex;
+  align-items: center;
+  height: 52px;
+  overflow: hidden;
+  border: 1px solid #e5e1dc;
+  border-radius: 12px;
+  background: #fcfbfa;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.price-field:focus-within {
+  border-color: #E96B4C;
+  box-shadow: 0 0 0 4px rgba(233, 107, 76, 0.08);
+  background: #ffffff;
+}
+
+.price-field span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 100%;
+  background: #f1eee9;
+  color: #24212D;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.price-field input {
+  height: 100% !important;
+  border: none !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+
+/* ========================================
+   PUBLISH AREA
+======================================== */
+
+.publish-area {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+  margin-top: 10px;
+  padding-top: 28px;
+  border-top: 1px solid #eeeae6;
+}
+
+.publish-area strong {
+  color: #24212D;
+  font-size: 14px;
+}
+
+.publish-area p {
+  margin: 5px 0 0;
+  color: #99939b;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.publish-button {
+  flex-shrink: 0;
+  border: none;
+  border-radius: 12px;
+  background: #E96B4C;
+  padding: 15px 22px;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(233, 107, 76, 0.22);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.publish-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px rgba(233, 107, 76, 0.28);
+}
+
+.publish-button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+}
+
+
+/* ========================================
+   MESSAGES
+======================================== */
+
+.form-message {
+  padding: 13px 15px;
+  margin-bottom: 25px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.form-message.error {
+  background: #fff0ed;
+  color: #b94d35;
+  border: 1px solid #f5d0c8;
+}
+
+.form-message.success {
+  background: #edf8f3;
+  color: #267452;
+  border: 1px solid #cbe9da;
+}
+
+
+/* ========================================
+   LIVE PREVIEW
+======================================== */
+
+.listing-preview {
+  position: sticky;
+  top: 105px;
+}
+
+.preview-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  padding: 0 4px;
+}
+
+.preview-label {
+  margin: 0 0 4px;
+  color: #99939b;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.preview-top h3 {
+  margin: 0;
+  color: #24212D;
+  font-size: 20px;
+}
+
+.preview-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #6fc59b;
+  box-shadow: 0 0 0 5px rgba(111, 197, 155, 0.13);
+}
+
+.preview-card {
+  background: #24212D;
+  border-radius: 22px;
+  padding: 30px;
+  color: #ffffff;
+  box-shadow: 0 20px 45px rgba(36, 33, 45, 0.18);
+}
+
+.preview-category {
+  display: inline-block;
+  margin-bottom: 22px;
+  border-radius: 50px;
+  background: #D9D0FF;
+  padding: 7px 11px;
+  color: #24212D;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.7px;
+}
+
+.preview-card h2 {
+  margin: 0 0 17px;
+  font-size: 25px;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+}
+
+.preview-description {
+  min-height: 80px;
+  margin: 0;
+  color: #c4bfca;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.preview-divider {
+  height: 1px;
+  margin: 25px 0 20px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.preview-bottom {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.preview-price-label {
+  display: block;
+  margin-bottom: 5px;
+  color: #99939f;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.preview-bottom strong {
+  font-size: 25px;
+  color: #ffffff;
+}
+
+.preview-avatar {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #E96B4C;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+
+/* ========================================
+   PREVIEW TIP
+======================================== */
+
+.preview-tip {
+  display: flex;
+  gap: 14px;
+  margin-top: 16px;
+  padding: 19px;
+  border-radius: 16px;
+  background: #D9D0FF;
+}
+
+.preview-tip > span {
+  font-size: 18px;
+  color: #24212D;
+}
+
+.preview-tip strong {
+  display: block;
+  margin-bottom: 4px;
+  color: #24212D;
+  font-size: 13px;
+}
+
+.preview-tip p {
+  margin: 0;
+  color: #615b6b;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media (max-width: 900px) {
+
+  .offer-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .listing-preview {
+    position: static;
+  }
+
+  .offer-header {
+    align-items: flex-start;
+  }
+
+  .offer-number {
+    display: none;
+  }
+
+}
+
+@media (max-width: 600px) {
+
+  .offer-page {
+    padding: 30px 5% 60px;
+  }
+
+  .offer-header {
+    margin-bottom: 35px;
+  }
+
+  .offer-header h1 {
+    font-size: 42px;
+    letter-spacing: -1.5px;
+  }
+
+  .offer-intro {
+    font-size: 16px;
+  }
+
+  .offer-form-card {
+    padding: 25px 20px;
+    border-radius: 18px;
+  }
+
+  .publish-area {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .publish-button {
+    width: 100%;
+  }
+
+  .preview-card {
+    padding: 24px;
+  }
+
+}
+
+/* ========================================
+   GIGS / MARKETPLACE
+======================================== */
+
+.gigs-page {
+  min-height: calc(100vh - 76px);
+  background: #F8F6F2;
+  padding: 55px 6% 90px;
+}
+
+.gigs-container {
+  max-width: 1250px;
+  margin: 0 auto;
+}
+
+
+/* ========================================
+   HEADER
+======================================== */
+
+.gigs-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 40px;
+  margin-bottom: 60px;
+}
+
+.gigs-header h1 {
+  max-width: 760px;
+  margin: 10px 0 18px;
+  color: #24212D;
+  font-size: clamp(44px, 5vw, 68px);
+  line-height: 1.02;
+  letter-spacing: -2.5px;
+}
+
+.gigs-header h1 span {
+  color: #E96B4C;
+}
+
+.gigs-intro {
+  max-width: 590px;
+  margin: 0;
+  color: #77727d;
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.gig-count {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  padding-bottom: 7px;
+}
+
+.gig-count strong {
+  color: #24212D;
+  font-size: 50px;
+  line-height: 0.9;
+  letter-spacing: -2px;
+}
+
+.gig-count span {
+  color: #99939b;
+  font-size: 12px;
+  line-height: 1.4;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+
+/* ========================================
+   GIG GRID
+======================================== */
+
+.gig-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+
+/* ========================================
+   GIG CARD
+======================================== */
+
+.gig-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 390px;
+  padding: 25px;
+  border: 1px solid rgba(36, 33, 45, 0.07);
+  border-radius: 20px;
+  background: #ffffff;
+  box-shadow: 0 15px 40px rgba(36, 33, 45, 0.05);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.gig-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 22px 50px rgba(36, 33, 45, 0.09);
+}
+
+
+/* ========================================
+   CARD TOP
+======================================== */
+
+.gig-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.gig-category {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 50px;
+  background: #D9D0FF;
+  padding: 7px 11px;
+  color: #24212D;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+}
+
+.available-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #478568;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.available-badge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #6fc59b;
+}
+
+
+/* ========================================
+   CARD CONTENT
+======================================== */
+
+.gig-card-content {
+  flex: 1;
+  padding: 28px 0 20px;
+}
+
+.gig-card-content h2 {
+  margin: 0 0 13px;
+  color: #24212D;
+  font-size: 22px;
+  line-height: 1.25;
+  letter-spacing: -0.4px;
+}
+
+.gig-description {
+  display: -webkit-box;
+  margin: 0;
+  overflow: hidden;
+  color: #77727d;
+  font-size: 14px;
+  line-height: 1.65;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+}
+
+
+/* ========================================
+   DIVIDER
+======================================== */
+
+.gig-card-divider {
+  height: 1px;
+  background: #eeeae6;
+}
+
+
+/* ========================================
+   CARD BOTTOM
+======================================== */
+
+.gig-card-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 19px 0;
+}
+
+.freelancer-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.freelancer-avatar {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #24212D;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.freelancer-info span,
+.gig-price span {
+  display: block;
+  margin-bottom: 3px;
+  color: #aaa5aa;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.freelancer-info strong {
+  display: block;
+  max-width: 110px;
+  overflow: hidden;
+  color: #24212D;
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.gig-price {
+  text-align: right;
+}
+
+.gig-price strong {
+  color: #E96B4C;
+  font-size: 18px;
+  white-space: nowrap;
+}
+
+
+/* ========================================
+   VIEW BUTTON
+======================================== */
+
+.gig-view-button {
+  width: 100%;
+  border: 1px solid #e7e2dd;
+  border-radius: 10px;
+  background: transparent;
+  padding: 12px;
+  color: #24212D;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.gig-view-button:hover {
+  border-color: #24212D;
+  background: #24212D;
+  color: #ffffff;
+}
+
+
+/* ========================================
+   LOADING / STATES
+======================================== */
+
+.gigs-state {
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed #dcd6cf;
+  border-radius: 22px;
+  text-align: center;
+  padding: 50px;
+}
+
+.gigs-state h2 {
+  margin: 18px 0 8px;
+  color: #24212D;
+  font-size: 25px;
+}
+
+.gigs-state p {
+  max-width: 430px;
+  margin: 0;
+  color: #89838c;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.gigs-state button {
+  margin-top: 25px;
+  border: none;
+  border-radius: 10px;
+  background: #E96B4C;
+  padding: 13px 20px;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.state-icon {
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #D9D0FF;
+  color: #24212D;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.error-state .state-icon {
+  background: #ffe1d9;
+  color: #b94d35;
+}
+
+.loading-spinner {
+  width: 34px;
+  height: 34px;
+  border: 3px solid #ddd7d0;
+  border-top-color: #E96B4C;
+  border-radius: 50%;
+  animation: gigs-spin 0.8s linear infinite;
+}
+
+@keyframes gigs-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media (max-width: 1000px) {
+
+  .gig-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+}
+
+@media (max-width: 700px) {
+
+  .gigs-page {
+    padding: 35px 5% 60px;
+  }
+
+  .gigs-header {
+    align-items: flex-start;
+    flex-direction: column;
+    margin-bottom: 40px;
+  }
+
+  .gigs-header h1 {
+    font-size: 44px;
+    letter-spacing: -1.5px;
+  }
+
+  .gigs-intro {
+    font-size: 16px;
+  }
+
+  .gig-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .gig-count {
+    padding-bottom: 0;
+  }
+
+}

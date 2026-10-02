@@ -1,10 +1,12 @@
 require("dotenv").config();
+
 const express = require("express");
 const http = require("http");
 const https = require("https");
 const fs = require("fs");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
+const cors = require("cors");
 
 const errorHandler = require("./middleware/errorHandler");
 const authRoutes = require("./routes/authRoutes");
@@ -14,17 +16,23 @@ const connectDB = require("./config/db");
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// --- 1. BODY PARSER MUST COME FIRST ---
+// --- 1. BODY PARSER ---
 app.use(express.json());
 
-// --- 2. CUSTOM SECURITY SANITIZATION MIDDLEWARE ---
+// --- 2. CORS ---
+app.use(cors({
+    origin: "http://localhost:5173"
+}));
+
+// --- 3. CUSTOM SECURITY SANITIZATION MIDDLEWARE ---
 const customSanitizer = (req, res, next) => {
     const cleanNoSQL = (obj) => {
         if (!obj) return;
+
         for (let key in obj) {
-            if (key.startsWith('$') || key.includes('.')) {
+            if (key.startsWith("$") || key.includes(".")) {
                 delete obj[key];
-            } else if (typeof obj[key] === 'object' && obj[key] !== null) {
+            } else if (typeof obj[key] === "object" && obj[key] !== null) {
                 cleanNoSQL(obj[key]);
             }
         }
@@ -32,10 +40,11 @@ const customSanitizer = (req, res, next) => {
 
     const cleanXSS = (obj) => {
         if (!obj) return;
+
         for (let key in obj) {
-            if (typeof obj[key] === 'string') {
-                obj[key] = obj[key].replace(/<[^>]*>?/gm, '');
-            } else if (typeof obj[key] === 'object' && obj[key] !== null) {
+            if (typeof obj[key] === "string") {
+                obj[key] = obj[key].replace(/<[^>]*>?/gm, "");
+            } else if (typeof obj[key] === "object" && obj[key] !== null) {
                 cleanXSS(obj[key]);
             }
         }
@@ -43,45 +52,58 @@ const customSanitizer = (req, res, next) => {
 
     cleanNoSQL(req.body);
     cleanNoSQL(req.params);
+
     cleanXSS(req.body);
     cleanXSS(req.params);
-    
+
     if (req.query) {
         cleanNoSQL(req.query);
         cleanXSS(req.query);
     }
+
     next();
 };
-// -----------------------------------------------
 
-// 3. Security Middlewares
-app.use(helmet()); 
-app.use(customSanitizer); 
+// --- 4. SECURITY MIDDLEWARE ---
+app.use(helmet());
+app.use(customSanitizer);
 
-// 4. Rate Limiting
+// --- 5. RATE LIMITING ---
 const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000, 
-    max: 100, 
-    message: { success: false, message: "Too many requests, please try again later." }
+    windowMs: 15 * 60 * 1000,
+    max: 100,
+    message: {
+        success: false,
+        message: "Too many requests, please try again later."
+    }
 });
+
 app.use("/api", limiter);
 
 const authLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
     max: 10,
-    message: { success: false, message: "Too many login attempts, please try again later." }
+    message: {
+        success: false,
+        message: "Too many login attempts, please try again later."
+    }
 });
 
+// --- 6. ROOT ROUTE ---
 app.get("/", (req, res) => {
-    res.json({ message: "HustleHub+ API is running" });
+    res.json({
+        message: "HustleHub+ API is running"
+    });
 });
 
-// 5. Routes
+// --- 7. API ROUTES ---
 app.use("/api/auth", authLimiter, authRoutes);
-app.use("/api/gigs", gigRoutes); 
+app.use("/api/gigs", gigRoutes);
 
+// --- 8. ERROR HANDLER ---
 app.use(errorHandler);
 
+// --- 9. START SERVER ---
 const startServer = async () => {
     try {
         await connectDB();
@@ -91,12 +113,17 @@ const startServer = async () => {
                 key: fs.readFileSync(process.env.SSL_KEY_PATH),
                 cert: fs.readFileSync(process.env.SSL_CERT_PATH)
             };
+
             https.createServer(sslOptions, app).listen(PORT, () => {
-                console.log(`HustleHub+ API running on https://localhost:${PORT}`);
+                console.log(
+                    `HustleHub+ API running on https://localhost:${PORT}`
+                );
             });
         } else {
             http.createServer(app).listen(PORT, () => {
-                console.log(`HustleHub+ API running on http://localhost:${PORT}`);
+                console.log(
+                    `HustleHub+ API running on http://localhost:${PORT}`
+                );
             });
         }
     } catch (error) {
