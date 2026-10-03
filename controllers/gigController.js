@@ -26,6 +26,26 @@ const getGigs = async (req, res, next) => {
         next(error);
     }
 };
+const getGigById = async (req, res, next) => {
+    try {
+        const gig = await Gig.findById(req.params.id)
+            .populate("freelancerId", "name email");
+
+        if (!gig) {
+            return res.status(404).json({
+                success: false,
+                message: "Gig not found"
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            data: gig
+        });
+    } catch (error) {
+        next(error);
+    }
+};
 
 // Update own gig (freelancer only, ownership check)
 const updateGig = async (req, res, next) => {
@@ -67,4 +87,10 @@ const deleteGig = async (req, res, next) => {
     }
 };
 
-module.exports = { createGig, getGigs, updateGig, deleteGig };
+module.exports = {
+    createGig,
+    getGigs,
+    getGigById,
+    updateGig,
+    deleteGig
+};
