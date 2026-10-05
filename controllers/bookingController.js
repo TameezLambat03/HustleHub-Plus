@@ -62,6 +62,35 @@ const createBooking = async (req, res, next) => {
     }
 };
 
+// List bookings that belong to the logged-in user
+const getMyBookings = async (req, res, next) => {
+    try {
+        const filter = {};
+
+        if (req.user.role === "client") {
+            filter.clientId = req.user.userId;
+        } else if (req.user.role === "freelancer") {
+            filter.freelancerId = req.user.userId;
+        }
+        // Admin has no filter, so they can view every booking
+
+        const bookings = await Booking.find(filter)
+            .populate("gigId", "title category price")
+            .populate("clientId", "name email")
+            .populate("freelancerId", "name email")
+            .sort({ createdAt: -1 });
+
+        res.status(200).json({
+            success: true,
+            count: bookings.length,
+            data: bookings
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
 module.exports = {
-    createBooking
+    createBooking,
+    getMyBookings
 };

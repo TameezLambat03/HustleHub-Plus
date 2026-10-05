@@ -90,6 +90,15 @@ const authLimiter = rateLimit({
     }
 });
 
+const bookingLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 20,
+    message: {
+        success: false,
+        message: "Too many booking requests, please try again later."
+    }
+});
+
 // --- 6. ROOT ROUTE ---
 app.get("/", (req, res) => {
     res.json({
@@ -100,7 +109,7 @@ app.get("/", (req, res) => {
 // --- 7. API ROUTES ---
 app.use("/api/auth", authLimiter, authRoutes);
 app.use("/api/gigs", gigRoutes);
-app.use("/api/bookings", bookingRoutes);
+app.use("/api/bookings", bookingLimiter, bookingRoutes);
 
 // --- 8. ERROR HANDLER ---
 app.use(errorHandler);

@@ -4,7 +4,7 @@ const { body } = require("express-validator");
 const protect = require("../middleware/authMiddleware");
 const { authorize } = require("../middleware/roleMiddleware");
 const validateControllerInput = require("../middleware/validateControllerInput");
-const { createBooking } = require("../controllers/bookingController");
+const { createBooking, getMyBookings } = require("../controllers/bookingController");
 
 const router = express.Router();
 
@@ -21,6 +21,13 @@ router.post(
     bookingValidator,
     validateControllerInput,
     createBooking
+);
+
+router.get(
+    "/",
+    protect,
+    authorize("client", "freelancer", "admin"),
+    getMyBookings
 );
 
 module.exports = router;
