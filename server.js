@@ -12,6 +12,7 @@ const errorHandler = require("./middleware/errorHandler");
 const authRoutes = require("./routes/authRoutes");
 const gigRoutes = require("./routes/gigRoutes");
 const bookingRoutes = require("./routes/bookingRoutes");
+const transactionRoutes = require("./routes/transactionRoutes");
 const connectDB = require("./config/db");
 
 const app = express();
@@ -110,6 +111,7 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authLimiter, authRoutes);
 app.use("/api/gigs", gigRoutes);
 app.use("/api/bookings", bookingLimiter, bookingRoutes);
+app.use("/api/transactions", bookingLimiter, transactionRoutes);
 
 // --- 8. ERROR HANDLER ---
 app.use(errorHandler);
