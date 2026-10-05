@@ -11,6 +11,7 @@ const cors = require("cors");
 const errorHandler = require("./middleware/errorHandler");
 const authRoutes = require("./routes/authRoutes");
 const gigRoutes = require("./routes/gigRoutes");
+const bookingRoutes = require("./routes/bookingRoutes");
 const connectDB = require("./config/db");
 
 const app = express();
@@ -99,6 +100,7 @@ app.get("/", (req, res) => {
 // --- 7. API ROUTES ---
 app.use("/api/auth", authLimiter, authRoutes);
 app.use("/api/gigs", gigRoutes);
+app.use("/api/bookings", bookingRoutes);
 
 // --- 8. ERROR HANDLER ---
 app.use(errorHandler);
