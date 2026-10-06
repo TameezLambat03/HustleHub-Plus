@@ -2,11 +2,13 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 import Navbar from './components/Navbar'
 import Home from './pages/Home'
-import Login from './pages/Login'
-import Register from './pages/Register'
-import Gigs from './pages/Gigs'
-import CreateGig from './pages/CreateGig'
-import GigDetails from './pages/GigDetails'
+import Login from './pages/Auth/Login'
+import Register from './pages/Auth/Register'
+import Gigs from './pages/Gigs/Gigs'
+import CreateGig from './pages/Gigs/CreateGig'
+import GigDetails from './pages/Gigs/GigDetails'
+import Bookings from './pages/Bookings/Bookings'
+import MyServices from './pages/Gigs/MyServices'
 function App() {
   return (
     <BrowserRouter>
@@ -21,6 +23,8 @@ function App() {
          <Route path="/gigs" element={<Gigs />} />
          <Route path="/offer-service" element={<CreateGig />} />
          <Route path="/gigs/:id" element={<GigDetails />} />
+         <Route path="/bookings" element={<Bookings />} />
+         <Route path="/my-services" element={<MyServices />} />
       </Routes>
 
     </BrowserRouter>

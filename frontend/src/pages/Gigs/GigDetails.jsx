@@ -13,6 +13,7 @@ function GigDetails() {
   const [bookingError, setBookingError] = useState('')
   const [bookingSuccess, setBookingSuccess] = useState(false)
   const [bookingData, setBookingData] = useState(null)
+  const [showBookingConfirm, setShowBookingConfirm] = useState(false)
 
   useEffect(() => {
     const fetchGig = async () => {
@@ -43,57 +44,67 @@ function GigDetails() {
   }, [id])
 
   const handleBooking = async () => {
-    const token = localStorage.getItem('token')
-    const user = JSON.parse(localStorage.getItem('user') || 'null')
+  const token = localStorage.getItem('token')
+  const user = JSON.parse(localStorage.getItem('user') || 'null')
 
-    setBookingError('')
+  setBookingError('')
 
-    if (!token) {
-      navigate('/login')
-      return
-    }
-
-    if (user?.role !== 'client') {
-      setBookingError(
-        'Only client accounts can book services.'
-      )
-      return
-    }
-
-    try {
-      setBookingLoading(true)
-
-      const response = await fetch(
-        'https://localhost:5000/api/bookings',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`
-          },
-          body: JSON.stringify({
-            gigId: id
-          })
-        }
-      )
-
-      const data = await response.json()
-
-      if (!response.ok) {
-        throw new Error(
-          data.message || 'Unable to create booking.'
-        )
-      }
-
-      setBookingData(data.data)
-      setBookingSuccess(true)
-    } catch (error) {
-      console.error('Booking failed:', error)
-      setBookingError(error.message)
-    } finally {
-      setBookingLoading(false)
-    }
+  if (!token) {
+    navigate('/login')
+    return
   }
+
+  if (user?.role !== 'client') {
+    setBookingError(
+      'Only client accounts can book services.'
+    )
+    return
+  }
+
+  setShowBookingConfirm(true)
+}
+
+const confirmBooking = async () => {
+  const token = localStorage.getItem('token')
+
+  setBookingError('')
+
+  try {
+    setBookingLoading(true)
+
+    const response = await fetch(
+      'https://localhost:5000/api/bookings',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          gigId: id
+        })
+      }
+    )
+
+    const data = await response.json()
+
+    if (!response.ok) {
+      throw new Error(
+        data.message || 'Unable to create booking.'
+      )
+    }
+
+    setBookingData(data.data)
+    setShowBookingConfirm(false)
+    setBookingSuccess(true)
+
+  } catch (error) {
+    console.error('Booking failed:', error)
+    setBookingError(error.message)
+  } finally {
+    setBookingLoading(false)
+  }
+}
 
   if (loading) {
     return (
@@ -160,81 +171,159 @@ function GigDetails() {
           ← Back to Browse Gigs
         </button>
 
-        {bookingSuccess ? (
-          <div className="booking-success-page">
+        
+{bookingSuccess ? (
+  <div className="booking-confirmation">
 
-            <div className="booking-success-icon">
-              ✓
-            </div>
+    <div className="confirmation-header">
 
-            <p className="section-tag">
-              BOOKING CONFIRMED
-            </p>
+      <div className="confirmation-check">
+        ✓
+      </div>
 
-            <h1>
-              You're all booked!
-            </h1>
+      <span className="confirmation-badge">
+        BOOKING CONFIRMED
+      </span>
 
-            <p className="booking-success-description">
-              Your booking for <strong>{gig.title}</strong> has
-              been confirmed and payment has been simulated
-              successfully.
-            </p>
+      <h1>
+        You're all booked!
+      </h1>
 
-            <div className="booking-success-card">
+      <p>
+        Your booking for <strong>{gig.title}</strong> has been
+        confirmed and your payment has been simulated successfully.
+      </p>
 
-              <div>
-                <span>Service</span>
-                <strong>{gig.title}</strong>
-              </div>
+    </div>
 
-              <div>
-                <span>Freelancer</span>
-                <strong>{freelancerName}</strong>
-              </div>
+    <div className="confirmation-card">
 
-              <div>
-                <span>Amount</span>
-                <strong>
-                  R{Number(gig.price).toLocaleString('en-ZA')}
-                </strong>
-              </div>
+      <div className="confirmation-card-header">
+        <div>
+          <span className="confirmation-label">
+            SERVICE
+          </span>
 
-              <div>
-                <span>Booking status</span>
-                <strong className="success-status">
-                  Confirmed
-                </strong>
-              </div>
+          <h2>
+            {gig.title}
+          </h2>
+        </div>
 
-              <div>
-                <span>Payment status</span>
-                <strong className="success-status">
-                  Completed
-                </strong>
-              </div>
+        <div className="confirmation-price">
+          R{Number(gig.price).toLocaleString('en-ZA')}
+        </div>
+      </div>
 
-            </div>
+      <div className="confirmation-divider" />
 
-            <div className="booking-success-actions">
+      <div className="confirmation-details">
 
-              <button
-                className="details-primary-button"
-                onClick={() => navigate('/bookings')}
-              >
-                View My Bookings
-              </button>
+        <div className="confirmation-detail">
+          <span className="detail-icon">👤</span>
 
-              <button
-                className="details-secondary-button"
-                onClick={() => navigate('/gigs')}
-              >
-                Browse More Gigs
-              </button>
+          <div>
+            <span className="confirmation-label">
+              FREELANCER
+            </span>
 
-            </div>
+            <strong>
+              {freelancerName}
+            </strong>
           </div>
-        ) : (
+        </div>
+
+        <div className="confirmation-detail">
+          <span className="detail-icon">✓</span>
+
+          <div>
+            <span className="confirmation-label">
+              BOOKING STATUS
+            </span>
+
+            <strong className="status-confirmed">
+              Confirmed
+            </strong>
+          </div>
+        </div>
+
+        <div className="confirmation-detail">
+          <span className="detail-icon">✓</span>
+
+          <div>
+            <span className="confirmation-label">
+              PAYMENT
+            </span>
+
+            <strong className="status-confirmed">
+              Completed
+            </strong>
+          </div>
+        </div>
+
+        <div className="confirmation-detail">
+          <span className="detail-icon">◆</span>
+
+          <div>
+            <span className="confirmation-label">
+              CATEGORY
+            </span>
+
+            <strong>
+              {gig.category}
+            </strong>
+          </div>
+        </div>
+
+      </div>
+
+      <div className="confirmation-total">
+        <span>Total paid</span>
+
+        <strong>
+          R{Number(gig.price).toLocaleString('en-ZA')}
+        </strong>
+      </div>
+
+    </div>
+
+    <div className="confirmation-message">
+
+      <div className="confirmation-message-icon">
+        →
+      </div>
+
+      <div>
+        <strong>What's next?</strong>
+
+        <p>
+          Your freelancer has received your booking and can now
+          get started on your service.
+        </p>
+      </div>
+
+    </div>
+
+    <div className="booking-success-actions">
+
+      <button
+        className="details-primary-button"
+        onClick={() => navigate('/bookings')}
+      >
+        View My Bookings
+      </button>
+
+      <button
+  className="details-secondary-button browse-gigs-button"
+  onClick={() => navigate('/gigs')}
+>
+  Browse More Gigs
+</button>
+
+    </div>
+
+  </div>
+) : (
+
           <div className="gig-details-layout">
 
             <section className="gig-details-main">
@@ -379,11 +468,67 @@ function GigDetails() {
                       : 'Book This Service →'}
                 </button>
 
-                <p className="booking-note">
-                  Your booking will be confirmed immediately
-                  and payment will be simulated for this
-                  project.
-                </p>
+               <p className="booking-note">
+  You'll review your booking before it is confirmed.
+</p>
+
+{showBookingConfirm && (
+  <div className="booking-confirm-box">
+
+    <p className="details-label">
+      CONFIRM YOUR BOOKING
+    </p>
+
+    <h3>
+      Ready to book this service?
+    </h3>
+
+    <p>
+      You're about to book <strong>{gig.title}</strong> from{' '}
+      <strong>{freelancerName}</strong>.
+    </p>
+
+    <div className="booking-confirm-summary">
+      <span>Total</span>
+
+      <strong>
+        R{Number(gig.price).toLocaleString('en-ZA')}
+      </strong>
+    </div>
+
+    {bookingError && (
+      <p className="booking-error">
+        {bookingError}
+      </p>
+    )}
+
+    <div className="booking-confirm-actions">
+
+      <button
+        className="details-secondary-button"
+        onClick={() => {
+          setShowBookingConfirm(false)
+          setBookingError('')
+        }}
+        disabled={bookingLoading}
+      >
+        Cancel
+      </button>
+
+      <button
+        className="book-service-button"
+        onClick={confirmBooking}
+        disabled={bookingLoading}
+      >
+        {bookingLoading
+          ? 'Confirming...'
+          : 'Confirm Booking →'}
+      </button>
+
+    </div>
+
+  </div>
+)}
 
               </div>
 
