@@ -57,7 +57,7 @@ function CreateGig() {
       setSuccess('Your service has been published successfully!')
 
       setTimeout(() => {
-        navigate('/gigs')
+        navigate('/my-services')
       }, 1200)
 
     } catch (error) {

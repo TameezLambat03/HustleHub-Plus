@@ -2577,3 +2577,440 @@ button {
   }
 
 }
+/* =========================================
+   MY SERVICES PAGE
+   All styles scoped to .my-services-page
+========================================= */
+
+.my-services-page {
+  min-height: calc(100vh - 80px);
+  padding: 70px 7% 90px;
+  background: #FCFAF7;
+}
+
+/* Header */
+
+.my-services-page .my-services-header {
+  max-width: 1100px;
+  margin: 0 auto 42px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 30px;
+}
+
+.my-services-page .my-services-eyebrow {
+  margin: 0 0 10px;
+  color: #E96B4C;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.6px;
+  line-height: 1;
+}
+
+.my-services-page .my-services-header h1 {
+  margin: 0 0 10px;
+  color: #24212D;
+  font-size: 42px;
+  line-height: 1.1;
+}
+
+.my-services-page .my-services-header > div > p:last-child {
+  margin: 0;
+  color: #716C78;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* Create button */
+
+.my-services-page .my-services-create-button {
+  flex-shrink: 0;
+  padding: 13px 21px;
+  border-radius: 11px;
+  background: #E96B4C;
+  color: #FFFFFF;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 5px 15px rgba(233, 107, 76, 0.12);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.my-services-page .my-services-create-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 9px 22px rgba(233, 107, 76, 0.2);
+}
+
+/* Service list */
+
+.my-services-page .my-services-list {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.my-services-page .my-services-count {
+  margin-bottom: 14px;
+  color: #8A8490;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* Service card */
+
+.my-services-page .my-service-card {
+  margin-bottom: 17px;
+  background: #FFFFFF;
+  border: 1px solid #E9E5DE;
+  border-radius: 20px;
+  box-shadow: 0 5px 20px rgba(36, 33, 45, 0.035);
+  overflow: hidden;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.my-services-page .my-service-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(36, 33, 45, 0.075);
+}
+
+.my-services-page .my-service-card-content {
+  padding: 27px 29px 24px;
+}
+
+/* Heading */
+
+.my-services-page .my-service-card-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 25px;
+}
+
+.my-services-page .my-service-title-group {
+  min-width: 0;
+}
+
+.my-services-page .my-service-category {
+  margin: 0 0 8px;
+  color: #9B75C9;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.my-services-page .my-service-card-heading h2 {
+  margin: 0;
+  color: #24212D;
+  font-size: 24px;
+  line-height: 1.25;
+}
+
+/* Availability */
+
+.my-services-page .my-service-status {
+  flex-shrink: 0;
+  padding: 7px 12px;
+  border: 1px solid #D7EBDD;
+  border-radius: 20px;
+  background: #F2F9F4;
+  color: #3E8B59;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.7px;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.my-services-page .my-service-status.unavailable {
+  border-color: #E8D7D7;
+  background: #FFF5F5;
+  color: #B44949;
+}
+
+/* Description */
+
+.my-services-page .my-service-description {
+  max-width: 760px;
+  margin: 15px 0 25px;
+  color: #716C78;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+/* Footer */
+
+.my-services-page .my-service-footer {
+  padding-top: 19px;
+  border-top: 1px solid #EEEAE4;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 25px;
+}
+
+/* Price */
+
+.my-services-page .my-service-price {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.my-services-page .my-service-price span {
+  color: #9A949F;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.my-services-page .my-service-price strong {
+  color: #24212D;
+  font-size: 22px;
+  line-height: 1;
+}
+
+/* Actions */
+
+.my-services-page .my-service-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.my-services-page .my-service-view-button,
+.my-services-page .my-service-edit-button,
+.my-services-page .my-service-delete-button {
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 9px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.my-services-page .my-service-view-button {
+  border: 1px solid #E3DCEB;
+  background: #FAF8FD;
+  color: #7654A6;
+}
+
+.my-services-page .my-service-view-button:hover {
+  background: #F2ECF9;
+  transform: translateY(-1px);
+}
+
+.my-services-page .my-service-edit-button {
+  border: 1px solid #E7D8D2;
+  background: #FFF9F6;
+  color: #C85F45;
+}
+
+.my-services-page .my-service-edit-button:hover {
+  background: #FFF0EA;
+  transform: translateY(-1px);
+}
+
+.my-services-page .my-service-delete-button {
+  border: 1px solid #E8D7D7;
+  background: #FFFFFF;
+  color: #B44949;
+}
+
+.my-services-page .my-service-delete-button:hover {
+  background: #FFF5F5;
+  transform: translateY(-1px);
+}
+
+.my-services-page .my-service-delete-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Empty state */
+
+.my-services-page .my-services-empty {
+  max-width: 700px;
+  margin: 30px auto 0;
+  padding: 70px 35px;
+  background: #FFFFFF;
+  border: 1px solid #E9E5DE;
+  border-radius: 22px;
+  text-align: center;
+  box-shadow: 0 5px 20px rgba(36, 33, 45, 0.035);
+}
+
+.my-services-page .my-services-empty-icon {
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 22px;
+  border-radius: 50%;
+  background: #F3ECFA;
+  color: #9B75C9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
+  font-weight: 300;
+}
+
+.my-services-page .my-services-empty h2 {
+  margin: 0 0 12px;
+  color: #24212D;
+  font-size: 25px;
+}
+
+.my-services-page .my-services-empty > p:not(.my-services-eyebrow) {
+  max-width: 480px;
+  margin: 0 auto 25px;
+  color: #716C78;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.my-services-page .my-services-empty-button {
+  display: inline-block;
+  padding: 12px 20px;
+  border-radius: 10px;
+  background: #E96B4C;
+  color: #FFFFFF;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.my-services-page .my-services-empty-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(233, 107, 76, 0.18);
+}
+
+/* Error */
+
+.my-services-page .my-services-error {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #F0CACA;
+  border-radius: 14px;
+  background: #FFF6F6;
+}
+
+.my-services-page .my-services-error strong {
+  color: #B44949;
+  font-size: 14px;
+}
+
+.my-services-page .my-services-error p {
+  margin: 6px 0 0;
+  color: #7E5A5A;
+  font-size: 13px;
+}
+
+/* Loading */
+
+.my-services-page .my-services-loading {
+  min-height: 55vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #716C78;
+  font-size: 13px;
+}
+
+.my-services-page .my-services-loading-spinner {
+  width: 30px;
+  height: 30px;
+  margin-bottom: 14px;
+  border: 3px solid #E9E5DE;
+  border-top-color: #E96B4C;
+  border-radius: 50%;
+  animation: my-services-spin 0.8s linear infinite;
+}
+
+@keyframes my-services-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive */
+
+@media (max-width: 750px) {
+
+  .my-services-page {
+    padding: 50px 5% 70px;
+  }
+
+  .my-services-page .my-services-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .my-services-page .my-services-header h1 {
+    font-size: 34px;
+  }
+
+  .my-services-page .my-services-create-button {
+    width: 100%;
+    text-align: center;
+  }
+
+  .my-services-page .my-service-card-heading {
+    flex-direction: column;
+    gap: 13px;
+  }
+
+  .my-services-page .my-service-footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .my-services-page .my-service-actions {
+    width: 100%;
+  }
+
+  .my-services-page .my-service-view-button,
+  .my-services-page .my-service-edit-button,
+  .my-services-page .my-service-delete-button {
+    flex: 1;
+  }
+}
+
+@media (max-width: 500px) {
+
+  .my-services-page .my-service-card-content {
+    padding: 22px;
+  }
+
+  .my-services-page .my-service-actions {
+    flex-wrap: wrap;
+  }
+
+  .my-services-page .my-service-view-button,
+  .my-services-page .my-service-edit-button,
+  .my-services-page .my-service-delete-button {
+    flex: 1;
+    min-width: 75px;
+  }
+
+  .my-services-page .my-services-empty {
+    padding: 50px 22px;
+  }
+}

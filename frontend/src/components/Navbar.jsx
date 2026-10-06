@@ -30,9 +30,9 @@ function Navbar() {
   <>
     {user?.role === 'freelancer' && (
       <>
-        <Link to="/offer-service" className="login-link">
-          Offer a Service
-        </Link>
+       <Link to="/my-services" className="login-link">
+  My Services
+</Link>
 
         <Link to="/dashboard" className="login-link">
           Dashboard
