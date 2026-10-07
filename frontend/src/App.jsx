@@ -25,6 +25,8 @@ function App() {
          <Route path="/gigs/:id" element={<GigDetails />} />
          <Route path="/bookings" element={<Bookings />} />
          <Route path="/my-services" element={<MyServices />} />
+         <Route path="/edit-service/:id" element={<CreateGig />}
+/>
       </Routes>
 
     </BrowserRouter>

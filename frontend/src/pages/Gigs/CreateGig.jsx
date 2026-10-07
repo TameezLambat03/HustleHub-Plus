@@ -1,8 +1,11 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 
 function CreateGig() {
   const navigate = useNavigate()
+  const { id } = useParams()
+
+  const isEditing = Boolean(id)
 
   const [title, setTitle] = useState('')
   const [category, setCategory] = useState('')
@@ -12,6 +15,70 @@ function CreateGig() {
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
   const [loading, setLoading] = useState(false)
+  const [loadingGig, setLoadingGig] = useState(isEditing)
+
+  /*
+    Load the existing gig when editing
+  */
+  useEffect(() => {
+    if (!isEditing) {
+      return
+    }
+
+    const token = localStorage.getItem('token')
+    const user = JSON.parse(
+      localStorage.getItem('user') || 'null'
+    )
+
+    if (!token) {
+      navigate('/login')
+      return
+    }
+
+    if (user?.role !== 'freelancer') {
+      navigate('/')
+      return
+    }
+
+    const fetchGig = async () => {
+      try {
+        const response = await fetch(
+          `https://localhost:5000/api/gigs/${id}`
+        )
+
+        const data = await response.json()
+
+        if (!response.ok) {
+          throw new Error(
+            data.message || 'Unable to load this service.'
+          )
+        }
+
+        const gig = data.data
+
+        setTitle(gig.title || '')
+        setCategory(gig.category || '')
+        setDescription(gig.description || '')
+        setPrice(
+          gig.price !== undefined && gig.price !== null
+            ? gig.price.toString()
+            : ''
+        )
+
+      } catch (error) {
+        console.error(
+          'Failed to load gig:',
+          error
+        )
+
+        setError(error.message)
+      } finally {
+        setLoadingGig(false)
+      }
+    }
+
+    fetchGig()
+  }, [id, isEditing, navigate])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -23,25 +90,34 @@ function CreateGig() {
     const token = localStorage.getItem('token')
 
     if (!token) {
-      setError('You need to be logged in to offer a service.')
+      setError(
+        'You need to be logged in to offer a service.'
+      )
       setLoading(false)
       return
     }
 
     try {
-      const response = await fetch('https://localhost:5000/api/gigs', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          title,
-          description,
-          category,
-          price: Number(price)
-        })
-      })
+      const response = await fetch(
+        isEditing
+          ? `https://localhost:5000/api/gigs/${id}`
+          : 'https://localhost:5000/api/gigs',
+        {
+          method: isEditing ? 'PUT' : 'POST',
+
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+          },
+
+          body: JSON.stringify({
+            title,
+            description,
+            category,
+            price: Number(price)
+          })
+        }
+      )
 
       const data = await response.json()
 
@@ -49,22 +125,49 @@ function CreateGig() {
         const validationMessage =
           data.errors?.[0]?.msg ||
           data.message ||
-          'Could not publish your service.'
+          `Could not ${
+            isEditing
+              ? 'update'
+              : 'publish'
+          } your service.`
 
         throw new Error(validationMessage)
       }
 
-      setSuccess('Your service has been published successfully!')
+      setSuccess(
+        isEditing
+          ? 'Your service has been updated successfully!'
+          : 'Your service has been published successfully!'
+      )
 
       setTimeout(() => {
         navigate('/my-services')
-      }, 1200)
+      }, 1000)
 
     } catch (error) {
+      console.error(
+        'Failed to save service:',
+        error
+      )
+
       setError(error.message)
+
     } finally {
       setLoading(false)
     }
+  }
+
+  if (loadingGig) {
+    return (
+      <main className="offer-page">
+        <div className="offer-container">
+          <div className="my-services-loading">
+            <div className="my-services-loading-spinner"></div>
+            <p>Loading your service...</p>
+          </div>
+        </div>
+      </main>
+    )
   }
 
   return (
@@ -73,50 +176,89 @@ function CreateGig() {
       <div className="offer-container">
 
         {/* Top navigation */}
+
         <button
           className="offer-back"
-          onClick={() => navigate('/')}
+          onClick={() => navigate('/my-services')}
         >
-          ← Back to home
+          ← Back to My Services
         </button>
 
         {/* Page heading */}
+
         <header className="offer-header">
 
           <div>
-            <p className="section-tag">OFFER A SERVICE</p>
+
+            <p className="section-tag">
+              {isEditing
+                ? 'EDIT SERVICE'
+                : 'OFFER A SERVICE'}
+            </p>
 
             <h1>
-              Turn your skills into
-              <span> something people need.</span>
+              {isEditing
+                ? 'Make your service'
+                : 'Turn your skills into'}
+              <span>
+                {isEditing
+                  ? ' even better.'
+                  : ' something people need.'}
+              </span>
             </h1>
 
             <p className="offer-intro">
-              Tell clients what you can do, set your price,
-              and put your service out there.
+              {isEditing
+                ? 'Update your service details, pricing, or description.'
+                : 'Tell clients what you can do, set your price, and put your service out there.'}
             </p>
+
           </div>
 
           <div className="offer-number">
-            <span>01</span>
-            <p>Create your listing</p>
+
+            <span>
+              {isEditing ? '02' : '01'}
+            </span>
+
+            <p>
+              {isEditing
+                ? 'Update your listing'
+                : 'Create your listing'}
+            </p>
+
           </div>
 
         </header>
 
         {/* Main content */}
+
         <div className="offer-layout">
 
           {/* Form */}
+
           <section className="offer-form-card">
 
             <div className="form-section-heading">
-              <span>01</span>
+
+              <span>
+                {isEditing ? '02' : '01'}
+              </span>
 
               <div>
-                <h2>Service details</h2>
-                <p>Give clients a clear idea of what you're offering.</p>
+
+                <h2>
+                  Service details
+                </h2>
+
+                <p>
+                  {isEditing
+                    ? 'Update the information clients see about your service.'
+                    : 'Give clients a clear idea of what you\'re offering.'}
+                </p>
+
               </div>
+
             </div>
 
             {error && (
@@ -144,7 +286,9 @@ function CreateGig() {
                   type="text"
                   placeholder="e.g. I'll build a modern React website"
                   value={title}
-                  onChange={(e) => setTitle(e.target.value)}
+                  onChange={(e) =>
+                    setTitle(e.target.value)
+                  }
                   required
                 />
 
@@ -163,9 +307,12 @@ function CreateGig() {
                 <select
                   id="category"
                   value={category}
-                  onChange={(e) => setCategory(e.target.value)}
+                  onChange={(e) =>
+                    setCategory(e.target.value)
+                  }
                   required
                 >
+
                   <option value="">
                     Choose a category
                   </option>
@@ -193,6 +340,7 @@ function CreateGig() {
                   <option value="Other">
                     Other
                   </option>
+
                 </select>
 
               </div>
@@ -207,7 +355,9 @@ function CreateGig() {
                   id="description"
                   placeholder="Explain what you'll provide, what clients can expect, and what makes your service useful..."
                   value={description}
-                  onChange={(e) => setDescription(e.target.value)}
+                  onChange={(e) =>
+                    setDescription(e.target.value)
+                  }
                   rows="7"
                   required
                 />
@@ -226,6 +376,7 @@ function CreateGig() {
                 </label>
 
                 <div className="price-field">
+
                   <span>R</span>
 
                   <input
@@ -235,9 +386,12 @@ function CreateGig() {
                     step="0.01"
                     placeholder="500"
                     value={price}
-                    onChange={(e) => setPrice(e.target.value)}
+                    onChange={(e) =>
+                      setPrice(e.target.value)
+                    }
                     required
                   />
+
                 </div>
 
               </div>
@@ -245,12 +399,19 @@ function CreateGig() {
               <div className="publish-area">
 
                 <div>
-                  <strong>Ready to share your service?</strong>
+
+                  <strong>
+                    {isEditing
+                      ? 'Ready to save your changes?'
+                      : 'Ready to share your service?'}
+                  </strong>
 
                   <p>
-                    Your listing will become visible to clients
-                    on HustleHub+.
+                    {isEditing
+                      ? 'Your updated listing will be visible to clients on HustleHub+.'
+                      : 'Your listing will become visible to clients on HustleHub+.'}
                   </p>
+
                 </div>
 
                 <button
@@ -258,7 +419,13 @@ function CreateGig() {
                   className="publish-button"
                   disabled={loading}
                 >
-                  {loading ? 'Publishing...' : 'Publish Service →'}
+                  {loading
+                    ? isEditing
+                      ? 'Saving...'
+                      : 'Publishing...'
+                    : isEditing
+                      ? 'Save Changes →'
+                      : 'Publish Service →'}
                 </button>
 
               </div>
@@ -268,15 +435,25 @@ function CreateGig() {
           </section>
 
           {/* Preview */}
+
           <aside className="listing-preview">
 
             <div className="preview-top">
+
               <div>
-                <p className="preview-label">LIVE PREVIEW</p>
-                <h3>Your service</h3>
+
+                <p className="preview-label">
+                  LIVE PREVIEW
+                </p>
+
+                <h3>
+                  Your service
+                </h3>
+
               </div>
 
               <span className="preview-dot"></span>
+
             </div>
 
             <div className="preview-card">
@@ -286,7 +463,8 @@ function CreateGig() {
               </div>
 
               <h2>
-                {title || 'Your service title will appear here'}
+                {title ||
+                  'Your service title will appear here'}
               </h2>
 
               <p className="preview-description">
@@ -299,6 +477,7 @@ function CreateGig() {
               <div className="preview-bottom">
 
                 <div>
+
                   <span className="preview-price-label">
                     STARTING FROM
                   </span>
@@ -306,6 +485,7 @@ function CreateGig() {
                   <strong>
                     R{price || '0'}
                   </strong>
+
                 </div>
 
                 <div className="preview-avatar">
@@ -321,12 +501,16 @@ function CreateGig() {
               <span>✦</span>
 
               <div>
-                <strong>Make it stand out</strong>
+
+                <strong>
+                  Make it stand out
+                </strong>
 
                 <p>
                   Clear titles, useful descriptions and fair
                   pricing help clients understand your service.
                 </p>
+
               </div>
 
             </div>
