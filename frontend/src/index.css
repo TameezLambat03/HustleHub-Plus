@@ -3423,3 +3423,144 @@ button {
     margin-top: 2px;
   }
 }
+
+/* =========================================================
+   REGISTER ROLE SELECTION
+   ========================================================= */
+
+.role-selection {
+  margin-top: 4px;
+}
+
+.role-selection-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+.role-selection-header label {
+  margin: 0;
+}
+
+.role-selection-header span {
+  color: #9A949F;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.role-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.role-option {
+  position: relative;
+  min-height: 135px;
+  padding: 17px;
+  border: 1.5px solid #E8E2DC;
+  border-radius: 13px;
+  background: #FFFFFF;
+  color: #24212D;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.role-option:hover {
+  border-color: #CDB9E2;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(36, 33, 45, 0.06);
+}
+
+.role-option.selected {
+  border-color: #9B75C9;
+  background: #EDE2F5;
+  color: #24212D;
+  box-shadow: 0 6px 20px rgba(155, 117, 201, 0.12);
+}
+
+.role-option.selected .role-content strong {
+  color: #24212D;
+}
+
+.role-option.selected .role-content span {
+  color: #5F5967;
+}
+
+.role-icon {
+  width: 34px;
+  height: 34px;
+  margin-bottom: 13px;
+  border-radius: 9px;
+  background: #F3ECFA;
+  color: #7654A6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+}
+
+.role-option.selected .role-icon {
+  background: #E8DDF2;
+}
+
+.role-content {
+  display: flex;
+  flex-direction: column;
+  padding-right: 22px;
+}
+
+.role-content strong {
+  margin-bottom: 5px;
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.role-content span {
+  color: #716C78;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.role-check {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 21px;
+  height: 21px;
+  border: 1px solid #DDD5E5;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.role-option.selected .role-check {
+  border-color: #9B75C9;
+  background: #9B75C9;
+}
+
+
+/* Mobile */
+@media (max-width: 520px) {
+  .role-options {
+    grid-template-columns: 1fr;
+  }
+
+  .role-option {
+    min-height: auto;
+  }
+}
