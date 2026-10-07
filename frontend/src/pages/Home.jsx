@@ -1,36 +1,129 @@
- import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+
 function Home() {
   const navigate = useNavigate()
- 
+
+  const token = localStorage.getItem('token')
+  const user = JSON.parse(
+    localStorage.getItem('user') || 'null'
+  )
+
+  const isLoggedIn = Boolean(token)
+  const isFreelancer = user?.role === 'freelancer'
+  const isClient = user?.role === 'client'
+
+  const userName = user?.name || 'there'
+
   return (
     <main className="home">
 
       {/* Hero section */}
       <section className="hero">
-        <p className="hero-tag">YOUR SKILLS. YOUR HUSTLE.</p>
 
-        <h1>
-          Find your next
-          <span> great hustle.</span>
-        </h1>
+        {isLoggedIn ? (
+          <>
+            <p className="hero-tag">
+              WELCOME BACK
+            </p>
 
-        <p className="hero-description">
-          Discover talented freelancers, find the services you need,
-          and turn ideas into reality.
-        </p>
+            <h1>
+              Welcome back,
+              <span> {userName}.</span>
+            </h1>
 
-        <div className="hero-buttons">
-  <button onClick={() => navigate('/gigs')}>
-    Browse Gigs
-  </button>
+            <p className="hero-description">
+              {isFreelancer
+                ? 'Keep your services moving, check your bookings, and see how your hustle is doing.'
+                : 'Find your next service, explore talented freelancers, and keep track of your bookings.'}
+            </p>
 
-  <button
-    className="secondary-button"
-    onClick={() => navigate('/register')}
-  >
-    Become a Freelancer
-  </button>
-</div>
+            <div className="hero-buttons">
+
+              {isFreelancer ? (
+                <>
+                  <button
+                    onClick={() => navigate('/dashboard')}
+                  >
+                    View Dashboard
+                  </button>
+
+                  <button
+                    className="secondary-button"
+                    onClick={() => navigate('/my-services')}
+                  >
+                    Manage My Services
+                  </button>
+                </>
+              ) : isClient ? (
+                <>
+                  <button
+                    onClick={() => navigate('/gigs')}
+                  >
+                    Browse Gigs
+                  </button>
+
+                  <button
+                    className="secondary-button"
+                    onClick={() => navigate('/bookings')}
+                  >
+                    My Bookings
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    onClick={() => navigate('/gigs')}
+                  >
+                    Browse Gigs
+                  </button>
+
+                  <button
+                    className="secondary-button"
+                    onClick={() => navigate('/register')}
+                  >
+                    Become a Freelancer
+                  </button>
+                </>
+              )}
+
+            </div>
+          </>
+        ) : (
+          <>
+            <p className="hero-tag">
+              YOUR SKILLS. YOUR HUSTLE.
+            </p>
+
+            <h1>
+              Find your next
+              <span> great hustle.</span>
+            </h1>
+
+            <p className="hero-description">
+              Discover talented freelancers, find the services you need,
+              and turn ideas into reality, or become one.
+
+            </p>
+
+            <div className="hero-buttons">
+
+              <button
+                onClick={() => navigate('/gigs')}
+              >
+                Browse Gigs
+              </button>
+
+              <button
+                className="secondary-button"
+                onClick={() => navigate('/register')}
+              >
+                Become a Freelancer
+              </button>
+
+            </div>
+          </>
+        )}
+
       </section>
 
       {/* Categories */}
@@ -40,6 +133,7 @@ function Home() {
         <h2>What are you looking for?</h2>
 
         <div className="category-grid">
+
           <div className="category-card">
             <span>💻</span>
             <h3>Development</h3>
@@ -63,33 +157,49 @@ function Home() {
             <h3>Media</h3>
             <p>Photography, video and more</p>
           </div>
+
         </div>
       </section>
 
       {/* How it works */}
-      <section id="how-it-works" className="how-it-works">
-        <p className="section-tag">SIMPLE PROCESS</p>
+      <section
+        id="how-it-works"
+        className="how-it-works"
+      >
+        <p className="section-tag">
+          SIMPLE PROCESS
+        </p>
 
-        <h2>How HustleHub+ works</h2>
+        <h2>
+          How HustleHub+ works
+        </h2>
 
         <div className="steps">
 
           <div className="step">
             <span>01</span>
             <h3>Find a gig</h3>
-            <p>Browse services from freelancers with the skills you need.</p>
+            <p>
+              Browse services from freelancers with
+              the skills you need.
+            </p>
           </div>
 
           <div className="step">
             <span>02</span>
             <h3>Book a service</h3>
-            <p>Choose a gig and send your booking request.</p>
+            <p>
+              Choose a gig and send your booking request.
+            </p>
           </div>
 
           <div className="step">
             <span>03</span>
             <h3>Get it done</h3>
-            <p>Work with your freelancer and bring your project to life.</p>
+            <p>
+              Work with your freelancer and bring your
+              project to life.
+            </p>
           </div>
 
         </div>
