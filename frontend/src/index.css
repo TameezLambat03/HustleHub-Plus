@@ -3739,3 +3739,151 @@ button {
     padding: 22px;
   }
 }
+/* User Management */
+
+.admin-back-link {
+  display: inline-block;
+  padding: 11px 16px;
+  color: #fff;
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 9px;
+  white-space: nowrap;
+}
+
+.admin-back-link:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.user-management-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.user-management-toolbar > div:first-child {
+  flex: 1;
+  min-width: 150px;
+}
+
+.user-management-toolbar h2 {
+  margin: 0 0 5px;
+  color: #111827;
+  font-size: 20px;
+}
+
+.user-management-toolbar p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.user-search,
+.user-role-filter {
+  box-sizing: border-box;
+  min-height: 42px;
+  padding: 10px 12px;
+  color: #111827;
+  background: #fff;
+  border: 1px solid #d1d5db;
+  border-radius: 9px;
+  font: inherit;
+}
+
+.user-search {
+  flex: 1;
+  min-width: 180px;
+}
+
+.user-role-filter {
+  min-width: 135px;
+}
+
+.user-results-count {
+  margin: 0 0 14px;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.user-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 14px;
+}
+
+.user-table th {
+  padding: 14px 12px;
+  color: #6b7280;
+  background: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 12px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.user-table td {
+  padding: 16px 12px;
+  color: #374151;
+  border-bottom: 1px solid #f0f1f3;
+}
+
+.user-table tbody tr:hover {
+  background: #f9fafb;
+}
+
+.user-role-badge {
+  display: inline-block;
+  padding: 5px 9px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.user-role-badge.client {
+  color: #1d4ed8;
+  background: #dbeafe;
+}
+
+.user-role-badge.freelancer {
+  color: #6d28d9;
+  background: #ede9fe;
+}
+
+.user-role-badge.admin {
+  color: #047857;
+  background: #d1fae5;
+}
+
+@media (max-width: 650px) {
+  .user-management-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .user-search,
+  .user-role-filter {
+    width: 100%;
+  }
+}
+.admin-card-link {
+  display: inline-block;
+  margin-top: 16px;
+  color: #2563eb;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.admin-card-link:hover {
+  text-decoration: underline;
+}

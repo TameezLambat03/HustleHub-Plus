@@ -124,18 +124,24 @@ function AdminDashboard() {
 
       <section className="admin-overview">
         {cards.map((card) => (
-          <article className="admin-card" key={card.title}>
-            <div className="admin-card-top">
-              <h3>{card.title}</h3>
-              <span className={`admin-card-icon ${card.iconClass}`}>
-                {card.icon}
-              </span>
-            </div>
+  <article className="admin-card" key={card.title}>
+    <div className="admin-card-top">
+      <h3>{card.title}</h3>
+      <span className={`admin-card-icon ${card.iconClass}`}>
+        {card.icon}
+      </span>
+    </div>
 
-            <p className="admin-stat">{card.value}</p>
-            <p className="admin-card-details">{card.details}</p>
-          </article>
-        ))}
+    <p className="admin-stat">{card.value}</p>
+    <p className="admin-card-details">{card.details}</p>
+
+    {card.title === 'User Management' && (
+      <Link className="admin-card-link" to="/admin/users">
+        View all users →
+      </Link>
+    )}
+  </article>
+))}
       </section>
     </main>
   )

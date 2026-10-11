@@ -81,4 +81,24 @@ const getAdminStats = async (req, res, next) => {
     }
 };
 
-module.exports = { getAdminStats };
+const getAdminUsers = async (req, res, next) => {
+    try {
+        const users = await User.find()
+            .select("-password")
+            .sort({ createdAt: -1 })
+            .lean();
+
+        res.json({
+            success: true,
+            count: users.length,
+            users
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+module.exports = {
+    getAdminStats,
+    getAdminUsers
+};

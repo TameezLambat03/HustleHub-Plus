@@ -11,7 +11,7 @@ import Bookings from './pages/Bookings/Bookings'
 import MyServices from './pages/Gigs/MyServices'
 import Dashboard from './pages/Dashboard/Dashboard'
 import AdminDashboard from './pages/Admin/AdminDashboard'
-
+import UserManagement from './pages/Admin/UserManagement'
 function App() {
   return (
     <BrowserRouter>
@@ -31,6 +31,7 @@ function App() {
         <Route path="/edit-service/:id" element={<CreateGig />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/admin/users" element={<UserManagement />} />
       </Routes>
 
     </BrowserRouter>
