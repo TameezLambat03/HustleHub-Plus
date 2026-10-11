@@ -7,19 +7,43 @@ Tameez Lambaat - ST10462078
 Atlegang GAMEDE – ST10445041  
 Titus Ndaba - ST10448883  
 
-# Youtube demo video
+# Updated Youtube demo video
 
-[https://youtu.be/hKSSmUVRzZM](https://youtu.be/hKSSmUVRzZM)
+[https://youtu.be/iELxDHfDBEo?si=W6eOj3fZwreM4FTM](https://youtu.be/iELxDHfDBEo?si=W6eOj3fZwreM4FTM)
 
 # Project Overview
 
-This project is the beginning of the HustleHub system. HustleHub is meant to be a system serving as a centralised location for freelancers to market themselves and provide services. The system will allow freelancers to connect with clients and manage their finances in accordance with local tax laws.
+HustleHub+ is a web application designed to connect freelancers with clients through a centralised platform for advertising and discovering freelance services.
 
-For this part of the project, a backend API server and React frontend were developed. The backend API allows users to create accounts with their relevant roles in a secure and validated manner. The system also provides functionality for freelancers to create and manage services, while clients can browse available services and make bookings.
+The application consists of a React frontend and a Node.js/Express backend API, with MongoDB used for data storage. The system supports three user roles: clients, freelancers, and administrators. Clients can browse available services and access booking functionality, freelancers can create and manage their gigs, and administrators have a dedicated role for administrative functionality within the system.
 
-As this project handles sensitive user information, including user account information, transactions, and client/business information, security is of the utmost importance. Any leaking of this information could result in significant financial issues for users and legal trouble for HustleHub. This is why certain technology choices were made to allow for a secure backend API service.
+Users can register as clients or freelancers and authenticate securely to access functionality according to their assigned roles. Administrator accounts cannot be created through public registration, helping prevent unauthorised users from granting themselves administrative privileges.
+
+Security is a key consideration in the application. HustleHub+ uses bcrypt for password hashing, JSON Web Tokens (JWT) for authentication, role-based access control, input validation, protected API routes, and HTTPS support. Gig management also incorporates ownership checks intended to prevent freelancers from modifying or deleting services belonging to other users.
 
 # Technology Choices
+
+Authentication and Authorisation
+
+HustleHub+ uses JWT-based authentication to identify authenticated users when they access protected API endpoints. Tokens contain the user's identifier and role and are signed using a secret configured through environment variables.
+
+Role-based access control restricts functionality according to the user's assigned role. Public registration supports client and freelancer accounts, while administrator accounts cannot be created through the public registration endpoint.
+
+Password and Input Validation
+
+Passwords are hashed using bcrypt before being stored in MongoDB. Registration and login requests are processed through validation middleware to check submitted data before the corresponding controller executes. Gig creation and update requests also use validation rules for fields such as title, description, category and price.
+
+Validation failures return an HTTP 400 response with details of the rejected fields. Duplicate email addresses are rejected during registration, and login failures return a generic invalid-credentials message.
+
+Gig Ownership Protection
+
+Gig management endpoints use authentication and authorisation middleware. Ownership checks are intended to ensure that a freelancer can modify or delete only their own gigs. Requests involving gigs that the authenticated freelancer does not own should be rejected rather than allowing unauthorised changes.
+
+API Protection and HTTPS
+
+The backend includes security middleware and rate limiting to help reduce common API risks, including excessive authentication attempts. HTTPS can be enabled through environment configuration so that communication between the browser and backend is encrypted during local development.
+
+Environment variables, database credentials, JWT secrets and private SSL keys must be kept out of public repositories. The actual configuration should be supplied through a local .env file or the deployment environment.
 
 ## Password Encryption
 
@@ -63,7 +87,7 @@ This installs the required Node.js dependencies listed in `package.json`.
 
 Create a file named `.env` in the root directory of the project.
 
-The environment file should contain the required configuration, including the MongoDB connection string and HTTPS settings.
+The environment file should contain the required configuration, including the MongoDB connection string and HTTPS settings, aswell as the admin details to be seeded on running the app.
 
 Example:
 
@@ -73,9 +97,12 @@ JWT_SECRET=your-development-secret
 USE_HTTPS=true
 SSL_KEY_PATH=./server.key
 SSL_CERT_PATH=./server.crt
+ADMIN_NAME=HustleHub Admin
+ADMIN_EMAIL=admin@hustlehub.com
+ADMIN_PASSWORD=AdminLogin12345_!
 ```
 
-Replace the placeholder values with the appropriate project configuration.
+Replace the placeholder values with the appropriate project configuration. 
 
 The `.env` file contains environment-specific configuration and should be kept secure.
 
@@ -193,7 +220,7 @@ Clients can:
 - Browse available freelance services
 - View individual service details
 - Book services
-- Receive a simulated booking and payment confirmation
+- Receive simulated booking and payment confirmations
 - View their bookings
 - View previously booked services
 
@@ -202,14 +229,36 @@ Clients can:
 Freelancers can:
 
 - Register and log in as a freelancer
-- Create services
-- View their own services
-- Edit existing services
-- Delete their own services
-- View individual service details
+- Create freelance gigs and advertise their services
+- View their own gigs
+- Edit existing gigs
+- Delete their own gigs
+- View individual gig details
 - View bookings made for their services
 - View total earnings
-- View their freelancer dashboard
+- Access their freelancer dashboard
+
+### Administrator
+
+Administrators can:
+
+- Log in using an administrator account
+- View existing accounts
+- Use the administrator account provided for local development and testing
+
+Administrator accounts cannot be created through public registration.
+
+### Security and Validation
+
+The application includes the following security features:
+
+- Password hashing using bcrypt
+- JWT-based authentication for protected endpoints
+- Role-based access control for clients, freelancers and administrators
+- Input validation for registration, login and gig management
+- Error handling for invalid requests and authentication failures
+- Ownership checks intended to prevent freelancers from modifying or deleting gigs belonging to other freelancers
+- HTTPS support for encrypted communication between the frontend and backend
 
 ## 8. Test the API
 
@@ -235,7 +284,7 @@ Protected endpoints require a valid JWT Bearer token.
 
 ## 9. Seeded Admin Account
 
-An administrator account is available for testing. Public registration does not allow users to create an administrator account.
+An administrator account can be seeded for testing. Public registration does not allow users to create an administrator account.
 
 The following credentials can be used for testing:
 
