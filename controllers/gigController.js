@@ -47,24 +47,39 @@ const getGigById = async (req, res, next) => {
     }
 };
 
-// Update own gig (freelancer only, ownership check)
+// Update own gig (freelancer only, ownership enforced in the query)
 const updateGig = async (req, res, next) => {
     try {
-        const gig = await Gig.findById(req.params.id);
-        if (!gig) return res.status(404).json({ success: false, message: "Gig not found" });
+        const { title, description, category, price } = req.body;
 
-        // Ownership check: only the freelancer who created the gig can update it
-        if (gig.freelancerId.toString() !== req.user.userId) {
-            return res.status(403).json({ success: false, message: "Not authorized to update this gig" });
+        const updatedGig = await Gig.findOneAndUpdate(
+            {
+                _id: req.params.id,
+                freelancerId: req.user.userId
+            },
+            {
+                title,
+                description,
+                category,
+                price
+            },
+            {
+                returnDocument: "after",
+                runValidators: true
+            }
+        );
+
+        if (!updatedGig) {
+            return res.status(404).json({
+                success: false,
+                message: "Gig not found or you are not authorized to update it"
+            });
         }
 
-        // FIX: Replaced { new: true } with { returnDocument: 'after' } to fix Mongoose warning
-        const updatedGig = await Gig.findByIdAndUpdate(
-            req.params.id, 
-            req.body, 
-            { returnDocument: 'after', runValidators: true }
-        );
-        res.status(200).json({ success: true, data: updatedGig });
+        res.status(200).json({
+            success: true,
+            data: updatedGig
+        });
     } catch (error) {
         next(error);
     }
