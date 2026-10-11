@@ -318,63 +318,107 @@ The MongoDB connection string should be kept secure and only provided to authori
 
 ![Flow Diagram](screenshots/Flow-Diagram.png)
 
-## Screenshots of Postman Testing
 
-### Registration
 
-#### Register - Valid Client
+## Postman API Testing
 
-![Register - Valid Client](screenshots/register-client.png)
+The HustleHub+ REST API was tested using Postman to verify endpoint functionality, input validation, authentication, role-based access control, sanitisation, rate limiting, and security headers.
 
-#### Register - Valid Freelancer
+### 1. Health and Gig Retrieval
 
-![Register - Valid Freelancer](screenshots/register-freelancer.png)
+| Test | Purpose |
+|---|---|
+| `API` | Checks whether the API responds to a request. |
+| `GIGS` | Retrieves the list of gigs. |
+| `Gig Not Found` | Tests the response when a gig ID does not exist. |
+| `GIG bad ID` | Tests handling of an invalid gig ID format. |
 
-#### Register - Duplicate User
+### 2. User Registration
 
-![Register - Duplicate User](screenshots/register-duplicate.png)
+| Test | Purpose |
+|---|---|
+| `Register Client Success` | Tests successful client registration. |
+| `Register Freelancer Success` | Tests successful freelancer registration. |
+| `Freelancer Two Register` | Tests registration of a second freelancer account. |
+| `Invalid Email` | Tests registration with an invalid email address. |
+| `Register No Fields` | Tests registration when required fields are missing. |
+| `Public Admin Reg` | Checks whether public registration prevents users from registering as administrators. |
+| `Weak Password` | Tests password strength validation. |
+| `Short Name` | Tests name length validation. |
 
-#### Register - Missing Fields
+### 3. Login and Authentication
 
-![Register - Missing Fields](screenshots/register-missing-fields.png)
+| Test | Purpose |
+|---|---|
+| `Clietn Login` | Tests successful client login. |
+| `Freelancer 1 Login` | Tests successful login for the first freelancer. |
+| `Freelancer 2 Login` | Tests successful login for the second freelancer. |
+| `Incorrect Password` | Tests login with an incorrect password. |
+| `Invalid Email Login` | Tests login with an invalid email address. |
+| `Access Profile No Token` | Checks whether profile access is denied without an authentication token. |
+| `Valid Token Access` | Tests profile access using a valid authentication token. |
+| `Admin Login` | Tests administrator login. |
 
-#### Register - Invalid Email
+### 4. Gig Management and Booking Validation
 
-![Register - Invalid Email](screenshots/register-invalid-email.png)
+| Test | Purpose |
+|---|---|
+| `Ok Gig update` | Tests updating an existing gig. |
+| `Gig creation` | Tests creating a gig. |
+| `Unauthenticated Gig Creation` | Checks whether gig creation is denied without authentication. |
+| `Create Gig Negative Price` | Tests rejection of a gig with a negative price. |
+| `Empty Gig Title` | Tests validation of an empty gig title. |
+| `Empty Gig description` | Tests validation of an empty gig description. |
+| `Booking WithoutGigId` | Tests booking creation without a gig ID. |
+| `Booking With Bad GigId` | Tests booking creation with an invalid gig ID. |
+| `Valid Booking` | Tests creation of a booking with valid input. |
 
-#### Register - Weak Password
+### 5. Role-Based Access Control (RBAC)
 
-![Register - Weak Password](screenshots/register-weak-password.png)
+| Test | Purpose |
+|---|---|
+| `Unauthenticated Gig Create` | Checks whether gig creation is blocked for unauthenticated users. |
+| `Denied Client Gig Creation` | Checks whether clients are prevented from creating gigs. |
+| `Freelance Gig Create` | Tests gig creation by a freelancer. |
+| `Unauthenticated Booking` | Checks whether booking access is denied without authentication. |
+| `Freelancer Booking Forbidden Create` | Checks whether freelancers are prevented from creating bookings. |
+| `Client Forbidden Income CHeck` | Checks whether clients are denied access to freelancer income information. |
+| `Freelancer Gets Income` | Tests whether a freelancer can access their income information. |
+| `Unauthenticated Income Check` | Checks whether income information is protected from unauthenticated users. |
+| `Client Access Booking` | Tests client access to bookings. |
+| `Freelancer Access Booking` | Tests freelancer access to bookings. |
+| `Unauthenticated Booking` | Checks booking access without authentication. |
+| `Admin View Bookings` | Tests administrator access to booking information. |
 
-#### Register - Admin Attempt
+### 6. Input Sanitisation
 
-![Register - Admin Attempt](screenshots/register-admin-attempt.png)
+| Test | Purpose |
+|---|---|
+| `HTML in description` | Tests how HTML content in a gig description is handled. |
+| `Remove MongoDB operator` | Tests handling of MongoDB operator injection attempts. |
+| `Mongo DB key` | Tests handling of input containing MongoDB-related keys. |
 
-### Login
+### 7. Rate Limiting
 
-#### Login - Client - Valid
+| Test | Purpose |
+|---|---|
+| `Repeat Failed Login` | Tests repeated failed login attempts against the authentication rate limiter. |
+| `Booking` | Exercises the booking endpoint while checking its configured rate-limiting behaviour. |
 
-![Login - Client - Valid](screenshots/login-client.png)
+### 8. Security Headers and CORS
 
-#### Login - Freelancer - Valid
+| Test | Purpose |
+|---|---|
+| `Check Security Keys` | Checks the security headers returned by the API. |
+| `Allowed Origin` | Tests a request from an allowed origin. |
+| `Untrusted Origin` | Tests handling of a request from an untrusted origin. |
 
-![Login - Freelancer - Valid](screenshots/login-freelancer.png)
+### Test Execution
 
-#### Login - Admin - Valid
+The Postman collection can be executed using Postman or Newman, the command-line runner for Postman collections. Newman HTML reports can be used to review request results and identify failed tests.
 
-![Login - Admin - Valid](screenshots/login-admin.png)
+The collection covers successful requests, invalid input, authentication failures, access-control restrictions, sanitisation, rate limiting, and security configuration.
 
-#### Login - Wrong Password
-
-![Login - Wrong Password](screenshots/login-wrong-password.png)
-
-#### Login - Invalid Email
-
-![Login - Invalid Email](screenshots/login-invalid-email.png)
-
-#### Login - Missing Fields
-
-![Login - Missing Fields](screenshots/login-missing-fields.png)
 
 ### JWT
 
