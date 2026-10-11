@@ -14,6 +14,8 @@ const gigRoutes = require("./routes/gigRoutes");
 const bookingRoutes = require("./routes/bookingRoutes");
 const transactionRoutes = require("./routes/transactionRoutes");
 const connectDB = require("./config/db");
+const seedAdmin = require("./config/seedAdmin");
+const adminRoutes = require("./routes/adminRoutes");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -112,6 +114,7 @@ app.use("/api/auth", authLimiter, authRoutes);
 app.use("/api/gigs", gigRoutes);
 app.use("/api/bookings", bookingLimiter, bookingRoutes);
 app.use("/api/transactions", bookingLimiter, transactionRoutes);
+app.use("/api/admin", adminRoutes);
 
 // --- 8. ERROR HANDLER ---
 app.use(errorHandler);
@@ -120,6 +123,7 @@ app.use(errorHandler);
 const startServer = async () => {
     try {
         await connectDB();
+        await seedAdmin();
 
         if (process.env.USE_HTTPS === "true") {
             const sslOptions = {

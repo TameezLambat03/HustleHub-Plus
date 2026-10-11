@@ -10,6 +10,7 @@ import GigDetails from './pages/Gigs/GigDetails'
 import Bookings from './pages/Bookings/Bookings'
 import MyServices from './pages/Gigs/MyServices'
 import Dashboard from './pages/Dashboard/Dashboard'
+import AdminDashboard from './pages/Admin/AdminDashboard'
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route path="/my-services" element={<MyServices />} />
         <Route path="/edit-service/:id" element={<CreateGig />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
 
     </BrowserRouter>

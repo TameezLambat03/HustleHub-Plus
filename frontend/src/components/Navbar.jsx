@@ -1,3 +1,4 @@
+
 import { Link, useNavigate } from 'react-router-dom'
 
 function Navbar() {
@@ -25,29 +26,34 @@ function Navbar() {
       </div>
 
       <div className="nav-actions">
-
         {token ? (
-  <>
-    {user?.role === 'freelancer' && (
-      <>
-       <Link to="/my-services" className="login-link">
-  My Services
-</Link>
+          <>
+            {user?.role === 'freelancer' && (
+              <>
+                <Link to="/my-services" className="login-link">
+                  My Services
+                </Link>
 
-        <Link to="/dashboard" className="login-link">
-          Dashboard
-        </Link>
-      </>
-    )}
+                <Link to="/dashboard" className="login-link">
+                  Dashboard
+                </Link>
+              </>
+            )}
 
-    <button
-      onClick={handleLogout}
-      className="signup-button"
-    >
-      Logout
-    </button>
-  </>
-) : (
+            {user?.role === 'admin' && (
+              <Link to="/admin" className="login-link">
+                Admin Dashboard
+              </Link>
+            )}
+
+            <button
+              onClick={handleLogout}
+              className="signup-button"
+            >
+              Logout
+            </button>
+          </>
+        ) : (
           <>
             <Link to="/login" className="login-link">
               Login
@@ -58,7 +64,6 @@ function Navbar() {
             </Link>
           </>
         )}
-
       </div>
     </nav>
   )

@@ -5,7 +5,15 @@ const User = require("../models/User");
 // REGISTER
 const registerUser = async (req, res, next) => {
     try {
-        const { name, email, password, role } = req.body;
+        const { name, email, password } = req.body;
+const requestedRole = req.body.role || "client";
+
+if (!["client", "freelancer"].includes(requestedRole)) {
+    return res.status(403).json({
+        success: false,
+        message: "Invalid account role. Admin accounts cannot be registered publicly."
+    });
+}
 
         const existingUser = await User.findOne({ email });
 
@@ -21,7 +29,7 @@ const registerUser = async (req, res, next) => {
             name,
             email,
             password: hashedPassword,
-            role: role || "client"
+            role: requestedRole
         });
 
         res.status(201).json({
