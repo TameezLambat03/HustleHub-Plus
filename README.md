@@ -509,6 +509,8 @@ The Postman collection can be executed using Postman or Newman, the command-line
 
 The collection covers successful requests, invalid input, authentication failures, access-control restrictions, sanitisation, rate limiting, and security configuration.
 
+The HTML test report is available in the [`Testing`](./Testing/) folder for reference.
+
 ### Application Screenshots
 
 #### Admin Dashboard
