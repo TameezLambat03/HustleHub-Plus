@@ -419,6 +419,67 @@ The Postman collection can be executed using Postman or Newman, the command-line
 
 The collection covers successful requests, invalid input, authentication failures, access-control restrictions, sanitisation, rate limiting, and security configuration.
 
+### Application Screenshots
+
+#### Admin Dashboard
+
+![Admin Dashboard](screenshots/admin-dashboard.png)
+
+#### Admin View Users
+
+![Admin View Users](screenshots/admin-viewUsers.png)
+
+#### Book A Service
+
+![Book A Service](screenshots/Book-Aservice.png)
+
+#### Booking Confirmation
+
+![Booking Confirmation](screenshots/Booking-Confirmation.png)
+
+#### Browse Gigs
+
+![Browse Gigs](screenshots/Browse-gigs.png)
+
+#### Client Home
+
+![Client Home](screenshots/Client-Home.png)
+
+#### Create A Gig
+
+![Create A Gig](screenshots/Create-AGig.png)
+
+#### Freelancer Dashboard
+
+![Freelancer Dashboard](screenshots/Freelancer-dashboard.png)
+
+#### Freelancer Gigs
+
+![Freelancer Gigs](screenshots/Freelancer-Gigs.png)
+
+#### Freelancer Home
+
+![Freelancer Home](screenshots/Freelancer-Home.png)
+
+#### Home Page
+
+![Home Page](screenshots/Home-Page.png)
+
+#### Login Screen
+
+![Login Screen](screenshots/Login-Screen.png)
+
+#### My Bookings Client
+
+![My Bookings Client](screenshots/My-BookingsClient.png)
+
+#### Payment Confirmation
+
+![Payment Confirmation](screenshots/Payment-Confirmation.png)
+
+#### Register Screen
+
+![Register Screen](screenshots/Register-Screen.png)
 
 ### JWT
 
