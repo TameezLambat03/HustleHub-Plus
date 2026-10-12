@@ -21,6 +21,20 @@ Users can register as clients or freelancers and authenticate securely to access
 
 Security is a key consideration in the application. HustleHub+ uses bcrypt for password hashing, JSON Web Tokens (JWT) for authentication, role-based access control, input validation, protected API routes, and HTTPS support. Gig management also incorporates ownership checks intended to prevent freelancers from modifying or deleting services belonging to other users.
 
+## System Architecture
+
+HustleHub+ uses a client-server architecture consisting of a React frontend, a Node.js/Express backend API and a MongoDB database.
+
+- **Frontend (React):** Provides the user interface through which clients browse and book services, freelancers manage their gigs, and administrators access administrative functionality.
+- **Backend (Node.js and Express):** Receives requests from the frontend, routes them to the appropriate endpoints, applies authentication, authorisation and validation checks, and coordinates application logic.
+- **Middleware:** Processes requests before they reach the relevant controller. Depending on the endpoint, this includes JWT authentication, role-based access control, input validation, rate limiting and security-related checks.
+- **Controllers:** Handle application operations, including account management, gig management and bookings, and communicate with the database through the application's data-access logic.
+- **Database (MongoDB):** Stores application data, including user accounts, gigs and booking-related records.
+- **HTTP responses:** The backend returns the result of each request to the frontend, which updates the interface or displays an appropriate error message.
+
+This separation of responsibilities helps organise the application, makes the backend API reusable independently of the user interface, and allows request validation and security checks to be applied centrally.
+
+
 # Technology Choices
 
 Authentication and Authorisation
@@ -51,13 +65,26 @@ This part of the project focuses specifically on user account creation and login
 
 For this, bcrypt is used. This is an algorithm that allows for one way hashing and allows for multiple iterations of the algorithm to run over the password for added layers of security (GeeksforGeeks, 2024). This allows for protection against brute force attacks as the algorithm is designed to be computationally heavy, meaning hackers will waste a lot of time and computing power trying to brute force multiple password attempts.
 
-It also protects against rainbow table attacks, whereby a hacker will have passwords in plain text with possible hashes, as bcrypt automatically adds a random salt to each password that is unique (GeeksforGeeks, 2024). This ultimately results in a secure environment for passwords wherein even if the hashed password is obtained, user data will remain uncompromised.
+It also protects against rainbow table attacks, whereby a hacker will have passwords in plain text with possible hashes, as bcrypt automatically adds a random salt to each password that is unique (GeeksforGeeks, 2024). Although bcrypt helps protect passwords if stored hashes are exposed, it cannot guarantee that other user data will remain secure. Additional security measures, including access control, input validation and encrypted communication, are still necessary.
 
 ## JWT
 
 This backend server also makes use of JWT tokens. This allows for secure authentication when users interact with protected resources. For this system specifically, once a user role is authorised, the user will be assigned a JWT token, which is attached to the header of authenticated HTTPS requests through the application frontend (GeeksforGeeks, 2019).
 
 This means that, without the server needing to store excess session data, the end user can have their authentication information and role used to access protected functionality while interacting with the system.
+
+### Why JWT Rather Than Server-Side Sessions?
+
+HustleHub+ uses JSON Web Tokens (JWTs) to authenticate requests to protected API endpoints. After a successful login, the backend issues a signed token containing the user's identifier and role. The frontend sends the token with subsequent protected requests, allowing the backend to verify the token and identify the user.
+
+An alternative is traditional server-side session authentication. With this approach, the server creates a session and stores session information, while the client sends a session identifier with subsequent requests. The server then uses that identifier to retrieve the corresponding session.
+
+JWT was selected because it allows the API to verify signed authentication claims without looking up a server-side session record for every request. This can simplify authentication for a frontend that communicates with a separate backend API and can reduce dependence on centrally stored session state.
+
+However, JWT is not universally more secure or always faster than session-based authentication. Server-side sessions make central session invalidation straightforward, whereas a JWT may remain valid until it expires unless additional revocation mechanisms are implemented. JWTs also require careful handling because anyone who obtains a usable token may be able to impersonate its holder until the token becomes invalid.
+
+For this reason, JWT authentication must be combined with signature verification, suitable token expiry, secure token handling, HTTPS and server-side authorisation checks. The token identifies the authenticated user; the backend must still verify that the user has permission to perform the requested operation.
+
 
 ## SSL certificate
 
@@ -290,7 +317,7 @@ The following credentials can be used for testing:
 
 | Role | Email | Password |
 |---|---|---|
-| Admin | `admin@hustlehub.com` | `AdminPassword123!` |
+| Admin | `admin@hustlehub.com` | `AdminLogin12345_!` |
 
 This account is intended for local development and testing.
 
@@ -317,6 +344,69 @@ The MongoDB connection string should be kept secure and only provided to authori
 ### Flow Diagram
 
 ![Flow Diagram](screenshots/Flow-Diagram.png)
+
+### Authentication Data Workflows
+
+#### 1. Register
+
+- The user submits the registration form through the React frontend.
+- The frontend sends a `POST` request to `/api/auth/register` containing the user's registration details.
+- The Express backend receives the request and applies the registration validation middleware.
+- If validation fails, the API returns a `400 Bad Request` response containing validation errors.
+- If validation succeeds, the registration controller checks whether the email address is already registered.
+- If the email address is available, the controller hashes the password using bcrypt.
+- The new user's details, including the hashed password and assigned role, are saved to MongoDB.
+- Once the user is created successfully, the API returns a `201 Created` response to the frontend.
+- The frontend processes the response and displays the appropriate registration result.
+
+#### 2. Login
+
+- The user submits their email address and password through the React frontend.
+- The frontend sends a `POST` request to `/api/auth/login` containing the login credentials.
+- The Express backend applies the login validation middleware.
+- If validation fails, the API returns a `400 Bad Request` response.
+- If validation succeeds, the login controller queries MongoDB to find the user associated with the submitted email address.
+- MongoDB returns the matching user document, including the stored password hash, user ID and role.
+- The controller compares the submitted password with the stored hash using bcrypt.
+- If the user does not exist or the credentials are incorrect, the API returns a generic authentication failure response, typically `401 Unauthorized`.
+- If authentication succeeds, the backend generates a signed JSON Web Token (JWT) containing the user's identity and role.
+- The API returns a `200 OK` response containing the token to the frontend.
+- The frontend uses the token when making subsequent requests to protected API endpoints.
+
+#### 3. Get Current User
+
+- The frontend sends a `GET` request to `/api/auth/me`, including the JWT in the `Authorization` header using the Bearer token format.
+- The Express backend passes the request through its authentication middleware.
+- The middleware verifies the token's signature and validity and extracts the authenticated user's identity.
+- If the token is missing, invalid or expired, the API returns a `401 Unauthorized` response.
+- If the token is valid, the endpoint retrieves the corresponding user record from MongoDB, if required by the implementation.
+- If the user record is found, the API returns a `200 OK` response containing the current user's permitted information.
+- The frontend processes the response and updates the interface to reflect the authenticated user's state.
+
+#### 4. Create and Manage a Gig
+
+- A freelancer uses the React frontend to submit a new gig or update an existing gig.
+- The frontend sends the relevant request to the Express API, including the required gig details and a JWT for protected operations.
+- The Express backend matches the request to the appropriate gig endpoint.
+- Authentication middleware verifies the JWT and identifies the requesting user.
+- Authorisation middleware and validation rules check the user's permissions and the submitted gig data.
+- For an update or deletion, the backend must verify that the gig belongs to the authenticated freelancer.
+- If authentication, authorisation, validation or ownership checks fail, the API returns an appropriate error response without performing the unauthorised operation.
+- If the checks pass, the controller processes the request and the application's database logic creates or updates the relevant MongoDB record.
+- The backend returns the operation's result to the frontend.
+- The frontend displays the result and refreshes the relevant gig information.
+
+#### 5. Create and Retrieve a Booking
+
+- A client browses available gigs through the React frontend and selects a service to book.
+- The frontend sends a booking request to the Express API containing the relevant gig identifier and any required booking information.
+- The backend matches the request to the booking endpoint and verifies authentication where required.
+- The backend validates the submitted information and checks that the referenced gig exists.
+- If the request is invalid or the gig cannot be found, the API returns an appropriate error response.
+- If the checks pass, the booking controller processes the request and saves the booking to MongoDB.
+- The backend returns a response indicating whether the booking was created successfully.
+- The frontend displays the booking result and updates the user's booking information.
+- When a client or freelancer retrieves bookings, the backend must apply the appropriate access controls so users cannot access booking information they are not authorised to view.
 
 
 
