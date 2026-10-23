@@ -10,6 +10,7 @@ function Dashboard() {
 
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+ const [estimatedTax, setEstimatedTax] = useState(0);
 
   useEffect(() => {
     const token = localStorage.getItem('token')
@@ -94,6 +95,7 @@ function Dashboard() {
           0
 
         setIncome(Number(incomeValue) || 0)
+        setEstimatedTax(Number(incomeData.data?.estimatedTax) || 0);
 
         const allGigs = gigsData.data || []
 
@@ -234,7 +236,43 @@ function Dashboard() {
               </p>
 
             </article>
+ <article className="dashboard-stat-card">
 
+          <div className="dashboard-stat-label">
+            ESTIMATED TAX
+          </div>
+
+          <strong>
+            R{estimatedTax.toLocaleString('en-ZA', {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2
+            })}
+          </strong>
+
+          <p>
+            Estimated at 25% of completed income
+          </p>
+
+        </article>
+
+        <article className="dashboard-stat-card">
+
+          <div className="dashboard-stat-label">
+            INCOME AFTER TAX
+          </div>
+
+          <strong>
+            R{(income - estimatedTax).toLocaleString('en-ZA', {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2
+            })}
+          </strong>
+
+          <p>
+            Earnings after estimated tax
+          </p>
+
+        </article>
           </section>
 
           <section className="dashboard-bookings">

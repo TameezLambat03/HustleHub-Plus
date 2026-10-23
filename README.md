@@ -85,6 +85,54 @@ However, JWT is not universally more secure or always faster than session-based 
 
 For this reason, JWT authentication must be combined with signature verification, suitable token expiry, secure token handling, HTTPS and server-side authorisation checks. The token identifies the authenticated user; the backend must still verify that the user has permission to perform the requested operation.
 
+## Tax Estimation and Financial Dashboard
+
+### Overview
+
+HustleHub+ includes a tax estimation feature that helps freelancers understand their earnings after setting aside an estimated amount for tax. The feature is integrated into the freelancer dashboard and uses completed financial transactions recorded by the backend.
+
+### Tax Estimation Logic
+
+The backend calculates estimated tax using a fixed rate of **25% of total completed transaction income**.
+
+The calculation follows these formulas:
+
+- **Total Income** = Sum of all completed transaction amounts for the freelancer.
+- **Estimated Tax** = Total Income × 0.25
+- **Income After Estimated Tax** = Total Income − Estimated Tax
+
+For example, if a freelancer has R2,000.00 in completed transaction income:
+
+| Calculation | Amount |
+|---|---:|
+| Total Income | R2,000.00 |
+| Estimated Tax (25%) | R500.00 |
+| Income After Estimated Tax | R1,500.00 |
+
+The backend retrieves completed transactions, calculates the total income, and applies the 25% rate. The resulting total income, estimated tax, tax rate, and transaction records are returned by the income API endpoint.
+
+### Frontend Integration
+
+The React freelancer dashboard retrieves financial information from the backend through the `/api/transactions/income` endpoint. It displays the following financial summaries:
+
+- **Total Earnings:** Total income from completed transactions.
+- **Estimated Tax:** The calculated 25% tax estimate.
+- **Income After Estimated Tax:** The total earnings minus the estimated tax.
+
+The dashboard formats monetary values in South African rand (ZAR) and updates the displayed figures using the data returned by the API. This provides freelancers with a convenient overview of their completed earnings and estimated tax provision.
+
+### Assumptions and Limitations
+
+The tax estimation feature uses a simplified, flat-rate calculation for demonstration and financial-planning purposes. The 25% rate is an application-defined estimate, not an official South African Revenue Service (SARS) tax calculation.
+
+The calculation does not account for progressive tax brackets, tax rebates, allowable business expenses, deductions, age-related benefits, other sources of income, or an individual's tax year. It should therefore not be treated as a final tax liability or a substitute for professional tax advice.
+
+Only transactions with a `completed` status are included in the income calculation. A booking that has not resulted in a completed transaction does not contribute to the estimated tax.
+
+### Purpose
+
+This feature demonstrates the integration of backend financial calculations with a frontend dashboard. It provides freelancers with a transparent estimate of the amount they may wish to set aside for tax while keeping the calculation straightforward and understandable.
+
 
 ## SSL certificate
 
